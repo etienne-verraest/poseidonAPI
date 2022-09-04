@@ -1,4 +1,4 @@
-package com.nnk.springboot.domain;
+package com.poseidon.app.domain;
 
 import java.sql.Timestamp;
 
