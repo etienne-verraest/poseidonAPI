@@ -1,7 +1,8 @@
-package com.nnk.springboot.repositories;
+package com.poseidon.app.repositories;
 
-import com.nnk.springboot.domain.Rating;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.poseidon.app.domain.Rating;
 
 public interface RatingRepository extends JpaRepository<Rating, Integer> {
 

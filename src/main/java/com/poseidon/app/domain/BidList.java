@@ -1,4 +1,4 @@
-package com.nnk.springboot.domain;
+package com.poseidon.app.domain;
 
 import java.sql.Timestamp;
 
@@ -12,19 +12,20 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
+@Table(name = "bidlist")
 @Data
-@Table(name = "trade")
-public class Trade {
+public class BidList {
 
-	public Trade(String account, String type) {
+	public BidList(String account, String type, Double bidQuantity) {
 		this.account = account;
 		this.type = type;
+		this.bidQuantity = bidQuantity;
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "TradeId")
-	private Integer tradeId;
+	@Column(name = "BidListId")
+	private Integer bidListId;
 
 	@Column
 	private String account;
@@ -33,19 +34,22 @@ public class Trade {
 	private String type;
 
 	@Column
-	private Double buyQuantity;
+	private Double bidQuantity;
 
 	@Column
-	private Double sellQuantity;
+	private Double askQuantity;
 
 	@Column
-	private Double buyPrice;
+	private Double bid;
 
 	@Column
-	private Double sellPrice;
+	private Double ask;
 
 	@Column
-	private Timestamp tradeDate;
+	private Timestamp bidListDate;
+
+	@Column
+	private String commentary;
 
 	@Column
 	private String security;
@@ -55,9 +59,6 @@ public class Trade {
 
 	@Column
 	private String trader;
-
-	@Column
-	private String benchmark;
 
 	@Column
 	private String book;
@@ -85,5 +86,4 @@ public class Trade {
 
 	@Column
 	private String side;
-
 }
