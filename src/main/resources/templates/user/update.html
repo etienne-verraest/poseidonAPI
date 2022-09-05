@@ -14,26 +14,34 @@
 	</div>
 
 	<div class="row">
-		<form action="#" th:action="@{/user/update/{id}(id=${user.id})}" th:object="${user}" method="post" class="form-horizontal" style="width: 100%">
+		<form action="#" th:action="@{/user/update/{id}(id=${userDto.id})}" th:object="${userDto}" method="post" class="form-horizontal" style="width: 100%">
 			<div class="form-group">
 				<label for="fullname" class="col-sm-2 control-label">Full Name</label>
 				<div class="col-sm-10">
 					<input type="text" th:field="*{fullname}" id="fullname" placeholder="Full Name" class="col-4">
-					<p class="text-danger" th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}"></p>
+					<p class="text-danger small" th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}"></p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="username" class="col-sm-2 control-label">User Name</label>
 				<div class="col-sm-10">
 					<input type="text" th:field="*{username}" id="username" placeholder="User Name" class="col-4">
-					<p class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+					<p class="text-danger small" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="password" class="col-sm-2 control-label">Password</label>
 				<div class="col-sm-10">
 					<input type="password" th:field="*{password}" id="password" placeholder="Password" class="col-4">
-					<p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+					<div class="text-danger small" th:if="${#fields.hasErrors('password')}" >
+					Password must match the following criterias : 
+						<ul>
+							<li>Minimum length of 8 characters</li>
+							<li>One (or more) uppercase letter</li>
+							<li>One (or more) number</li>
+							<li>One (or more) symbols</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
