@@ -1,4 +1,4 @@
-package com.nnk.springboot;
+package com.poseidon.app;
 
 import org.junit.Assert;
 import org.junit.Test;
