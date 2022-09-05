@@ -14,7 +14,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = PasswordValidator.class)
 public @interface Password {
 
-	String message() default "Password doesn't match criterias";
+	String message() default "Password is not meeting the criterias";
 
 	Class<?>[] groups() default {};
 

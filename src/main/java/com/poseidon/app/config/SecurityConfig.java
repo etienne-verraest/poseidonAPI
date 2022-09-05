@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.rememberMe().userDetailsService(userService).tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days token
 				.rememberMeCookieName("REMEMBERSESSION") // Set a cookie name
 				.and() //
-				.logout().logoutUrl("/logout").invalidateHttpSession(true) // Logout parameters
+				.logout().logoutUrl("/app-logout").invalidateHttpSession(true) // Logout parameters
 				.deleteCookies("JSESSIONID", "REMEMBERSESSION") // Delete cookies on logout
 				.and().csrf().disable(); // Disabling CSRF Tokens
 	}
