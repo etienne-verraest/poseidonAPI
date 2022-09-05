@@ -23,8 +23,7 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	UserRepository userRepository;
 
-	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
+	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	/**
 	 * Spring Security implemented method
