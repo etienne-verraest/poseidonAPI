@@ -17,6 +17,13 @@
 		</div>
 	</div>
 	<div class="row"><h2>User List</h2></div>
+	
+	<div class="row" th:if="${param.update_error}">
+		<div class="alert alert-warning" role="alert">
+  			There was an error while trying to update the user
+		</div>
+	</div>
+	
 	<div class="row">
 		<a href="/user/add" class="btn btn-primary btn-sm">Add New</a>
 		<table class="table table-bordered">

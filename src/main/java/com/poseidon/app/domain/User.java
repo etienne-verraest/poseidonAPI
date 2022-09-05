@@ -3,12 +3,12 @@ package com.poseidon.app.domain;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,18 +33,19 @@ public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column
 	private Integer id;
 
-	@NotBlank(message = "Username is mandatory")
+	@Column
 	private String username;
 
-	@NotBlank(message = "Password is mandatory")
+	@Column
 	private String password;
 
-	@NotBlank(message = "FullName is mandatory")
+	@Column
 	private String fullname;
 
-	@NotBlank(message = "Role is mandatory")
+	@Column
 	private String role;
 
 	// Below are Spring Security related methods
