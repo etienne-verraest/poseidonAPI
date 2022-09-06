@@ -2,6 +2,7 @@ package com.poseidon.app.controllers;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,14 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.poseidon.app.domain.BidList;
+import com.poseidon.app.services.BidListService;
 
 @Controller
 public class BidListController {
-	// TODO Story 1 : Inject Bid service
+
+	@Autowired
+	BidListService bidListService;
 
 	@RequestMapping("/bidList/list")
 	public String home(Model model) {
-		// TODO: call service find all bids to show to the view
+		model.addAttribute("bids", bidListService.findAllBidList());
 		return "bidList/list";
 	}
 
