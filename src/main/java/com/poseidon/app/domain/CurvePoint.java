@@ -10,10 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "curvepoint")
+@NoArgsConstructor
 public class CurvePoint {
 
 	public CurvePoint(Integer curveId, Double term, Double value) {
