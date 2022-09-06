@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class WholeNumberValidator implements ConstraintValidator<WholeNumber, String> {
+public class IsIntegerValidator implements ConstraintValidator<IsInteger, String> {
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {

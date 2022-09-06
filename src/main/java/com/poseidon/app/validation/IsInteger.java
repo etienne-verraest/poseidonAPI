@@ -11,8 +11,8 @@ import javax.validation.Payload;
 
 @Retention(RUNTIME)
 @Target(FIELD)
-@Constraint(validatedBy = WholeNumberValidator.class)
-public @interface WholeNumber {
+@Constraint(validatedBy = IsIntegerValidator.class)
+public @interface IsInteger {
 
 	String message() default "Please enter an Integer";
 

@@ -8,10 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "rulename")
+@NoArgsConstructor
 public class RuleName {
 
 	public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {
