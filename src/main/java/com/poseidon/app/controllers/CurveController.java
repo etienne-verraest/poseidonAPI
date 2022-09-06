@@ -112,7 +112,7 @@ public class CurveController {
 	 *
 	 * @param id								The ID that is going to be deleted
 	 * @return									The curve points list if the deletion was successful
-	 * @throws CurvePointServiceException			Thrown if there was an error while deleting the curve point
+	 * @throws CurvePointServiceException		Thrown if there was an error while deleting the curve point
 	 */
 	@GetMapping("/curvePoint/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) throws CurvePointServiceException {

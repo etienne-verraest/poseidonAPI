@@ -33,7 +33,6 @@ public class CurvePointService {
 	 * @param id								The CurvePoint ID to find
 	 * @return									CurvePoint if it exists, otherwise an error is thrown
 	 * @throws CurvePointServiceException	 	Thrown if the CurvePoint was not found
-	 *
 	 */
 	public CurvePoint findCurvePointById(Integer id) throws CurvePointServiceException {
 		Optional<CurvePoint> curvePoint = curvePointRepository.findCurvePointById(id);
@@ -81,7 +80,7 @@ public class CurvePointService {
 					curvePointEntityUpdated.getValue());
 			return true;
 		}
-		throw new CurvePointServiceException("Could not Curve point with id : " + id);
+		throw new CurvePointServiceException("Could not find Curve point with id : " + id);
 	}
 
 	/**
