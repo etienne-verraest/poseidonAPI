@@ -8,10 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "rating")
+@NoArgsConstructor
 public class Rating {
 
 	public Rating(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {
