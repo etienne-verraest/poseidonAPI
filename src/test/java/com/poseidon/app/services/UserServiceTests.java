@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.poseidon.app.domain.User;
 import com.poseidon.app.exceptions.UserServiceException;
@@ -44,6 +45,20 @@ public class UserServiceTests {
 		mockSecondUser = new User(2, "david.waters", "password", "David Waters", "ADMIN");
 		userMockList.add(mockFirstUser);
 		userMockList.add(mockSecondUser);
+	}
+
+	@Test
+	public void testLoadUserByUserName_ShouldReturn_User() {
+
+		// ARRANGE
+		when(userRepositoryMock.findByUsername(anyString())).thenReturn(Optional.of(mockFirstUser));
+
+		// ACT
+		UserDetails response = userService.loadUserByUsername("tom.powell");
+
+		// ASSERT
+		assertThat(response.getUsername()).isEqualTo("tom.powell");
+
 	}
 
 	@Test
