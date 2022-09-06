@@ -10,10 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "bidlist")
 @Data
+@NoArgsConstructor
 public class BidList {
 
 	public BidList(String account, String type, Double bidQuantity) {
