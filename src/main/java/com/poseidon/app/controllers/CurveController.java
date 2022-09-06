@@ -1,5 +1,9 @@
 package com.poseidon.app.controllers;
 
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,47 +13,115 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.poseidon.app.domain.CurvePoint;
-
-import javax.validation.Valid;
+import com.poseidon.app.domain.dto.CurvePointDto;
+import com.poseidon.app.exceptions.CurvePointServiceException;
+import com.poseidon.app.services.CurvePointService;
 
 @Controller
 public class CurveController {
-    // TODO: Inject Curve Point service
 
-    @RequestMapping("/curvePoint/list")
-    public String home(Model model)
-    {
-        // TODO: find all Curve Point, add to model
-        return "curvePoint/list";
-    }
+	@Autowired
+	CurvePointService curvePointService;
 
-    @GetMapping("/curvePoint/add")
-    public String addBidForm(CurvePoint bid) {
-        return "curvePoint/add";
-    }
+	@Autowired
+	ModelMapper modelMapper;
 
-    @PostMapping("/curvePoint/validate")
-    public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Curve list
-        return "curvePoint/add";
-    }
+	/**
+	 * Show the Curve Points page
+	 */
+	@RequestMapping("/curvePoint/list")
+	public String home(Model model) {
+		model.addAttribute("curvePoints", curvePointService.findAllCurvePoint());
+		return "curvePoint/list";
+	}
 
-    @GetMapping("/curvePoint/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get CurvePoint by Id and to model then show to the form
-        return "curvePoint/update";
-    }
+	/**
+	 * Show the form to add a Curve Point
+	 *
+	 * @param curvePointDto						CurvePointDto with fields that are required to create a new Curve Point
+	 * @return									Add a Curve Point view
+	 */
+	@GetMapping("/curvePoint/add")
+	public String addCurvePointForm(CurvePointDto curvePointDto) {
+		return "curvePoint/add";
+	}
 
-    @PostMapping("/curvePoint/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
-                             BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Curve and return Curve list
-        return "redirect:/curvePoint/list";
-    }
+	/**
+	 * Validate the fields of the "Add Curve Point" Form
+	 *
+	 * @param curvePointDto						curvePointDto with filled fields that are going to be validated
+	 * @param result							The result of the validation
+	 * @return									Returns the list of curve points if the form was validated, otherwise show errors
+	 * @throws CurvePointServiceException		Thrown if there is an error while creating the curve point
+	 */
+	@PostMapping("/curvePoint/validate")
+	public String validate(@Valid CurvePointDto curvePointDto, BindingResult result, Model model)
+			throws CurvePointServiceException {
+		if (!result.hasErrors()) {
+			CurvePoint newCurvePoint = modelMapper.map(curvePointDto, CurvePoint.class);
+			curvePointService.createCurvePoint(newCurvePoint);
+			model.addAttribute("curvePoints", curvePointService.findAllCurvePoint());
+			return "redirect:/curvePoint/list";
+		}
+		return "curvePoint/add";
+	}
 
-    @GetMapping("/curvePoint/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Curve by Id and delete the Curve, return to Curve list
-        return "redirect:/curvePoint/list";
-    }
+	/**
+	 * Update a Curve Point
+	 *
+	 * @param id								The ID that is going to be updated
+	 * @return								    The form to update a curve point
+	 * @throws CurvePointServiceException		Thrown if the given ID was not found in database
+	 */
+	@GetMapping("/curvePoint/update/{id}")
+	public String showUpdateForm(@PathVariable("id") Integer id, Model model) throws CurvePointServiceException {
+		try {
+			CurvePoint curvePointToUpdate = curvePointService.findCurvePointById(id);
+			CurvePointDto curvePointDto = modelMapper.map(curvePointToUpdate, CurvePointDto.class);
+			curvePointDto.setId(id);
+			model.addAttribute("curvePointDto", curvePointDto);
+		} catch (CurvePointServiceException error) {
+			return "redirect:/curvePoint/list";
+		}
+		return "curvePoint/update";
+	}
+
+	/**
+	 * Validate the fields for curve point updating
+	 *
+	 * @param id								The ID that is going to be updated
+	 * @param curvePointDto						The new fields that will be mapped to the existing curve point
+	 * @return									Returns the list of curvepoint if the form is valid, otherwise show errors
+	 * @throws CurvePointServiceException		Thrown if there is an error while updating the curve point
+	 */
+	@PostMapping("/curvePoint/update/{id}")
+	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePointDto curvePointDto,
+			BindingResult result, Model model) throws CurvePointServiceException {
+
+		if (result.hasErrors()) {
+			return "curvePoint/update";
+		}
+		CurvePoint updatedCurvePoint = modelMapper.map(curvePointDto, CurvePoint.class);
+		curvePointService.updateCurvePoint(id, updatedCurvePoint);
+		model.addAttribute("curvePoints", curvePointService.findAllCurvePoint());
+		return "redirect:/curvePoint/list";
+	}
+
+	/**
+	 * Delete a curve point
+	 *
+	 * @param id								The ID that is going to be deleted
+	 * @return									The curve points list if the deletion was successful
+	 * @throws CurvePointServiceException			Thrown if there was an error while deleting the curve point
+	 */
+	@GetMapping("/curvePoint/delete/{id}")
+	public String deleteBid(@PathVariable("id") Integer id, Model model) throws CurvePointServiceException {
+		try {
+			curvePointService.deleteCurvePoint(id);
+		} catch (CurvePointServiceException error) {
+			return "redirect:/curvePoint/list";
+		}
+		model.addAttribute("curvePoints", curvePointService.findAllCurvePoint());
+		return "redirect:/curvePoint/list";
+	}
 }
