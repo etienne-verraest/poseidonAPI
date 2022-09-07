@@ -16,25 +16,25 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.poseidon.app.domain.RuleName;
-import com.poseidon.app.exceptions.RuleNameServiceException;
-import com.poseidon.app.repositories.RuleNameRepository;
+import com.poseidon.app.domain.Rule;
+import com.poseidon.app.exceptions.RuleServiceException;
+import com.poseidon.app.repositories.RuleRepository;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RuleNameServiceTests {
+public class RuleServiceTests {
 
 	@InjectMocks
-	RuleNameService ruleNameService;
+	RuleService ruleNameService;
 
 	@Mock
-	RuleNameRepository ruleNameRepositoryMock;
+	RuleRepository ruleNameRepositoryMock;
 
-	static RuleName mockFirstRuleName;
-	static List<RuleName> ruleNameListMock;
+	static Rule mockFirstRuleName;
+	static List<Rule> ruleNameListMock;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		mockFirstRuleName = new RuleName("Name", "Description", "Json", "Template", "SqlStr", "SqlPart");
+		mockFirstRuleName = new Rule("Name", "Description", "Json", "Template", "SqlStr", "SqlPart");
 		ruleNameListMock = new ArrayList<>();
 		ruleNameListMock.add(mockFirstRuleName);
 	}
@@ -46,7 +46,7 @@ public class RuleNameServiceTests {
 		when(ruleNameRepositoryMock.findAll()).thenReturn(ruleNameListMock);
 
 		// ACT
-		List<RuleName> response = ruleNameService.findAllRuleNames();
+		List<Rule> response = ruleNameService.findAllRules();
 
 		// ASSERT
 		assertThat(response.get(0).getName()).isEqualTo("Name");
@@ -54,13 +54,13 @@ public class RuleNameServiceTests {
 	}
 
 	@Test
-	public void testFindRuleNameById_ShouldReturn_FirstRuleName() throws RuleNameServiceException {
+	public void testFindRuleNameById_ShouldReturn_FirstRuleName() throws RuleServiceException {
 
 		// ARRANGE
-		when(ruleNameRepositoryMock.findRuleNameById(1)).thenReturn(Optional.of(mockFirstRuleName));
+		when(ruleNameRepositoryMock.findRuleById(1)).thenReturn(Optional.of(mockFirstRuleName));
 
 		// ACT
-		RuleName response = ruleNameService.findRuleNameById(1);
+		Rule response = ruleNameService.findRuleById(1);
 
 		// ARRANGE
 		assertThat(response.getName()).isEqualTo("Name");
@@ -69,10 +69,10 @@ public class RuleNameServiceTests {
 	}
 
 	@Test
-	public void testCreateRuleName_ShouldReturn_True() throws RuleNameServiceException {
+	public void testCreateRuleName_ShouldReturn_True() throws RuleServiceException {
 
 		// ACT
-		boolean response = ruleNameService.createRuleName(mockFirstRuleName);
+		boolean response = ruleNameService.createRule(mockFirstRuleName);
 
 		// ASSERT
 		assertThat(response).isTrue();
@@ -80,14 +80,14 @@ public class RuleNameServiceTests {
 	}
 
 	@Test
-	public void testUpdateRuleName_ShouldReturn_True() throws RuleNameServiceException {
+	public void testUpdateRuleName_ShouldReturn_True() throws RuleServiceException {
 
 		// ARRANGE
-		when(ruleNameRepositoryMock.findRuleNameById(1)).thenReturn(Optional.of(mockFirstRuleName));
+		when(ruleNameRepositoryMock.findRuleById(1)).thenReturn(Optional.of(mockFirstRuleName));
 		mockFirstRuleName.setTemplate("Template 2");
 
 		// ACT
-		boolean response = ruleNameService.updateRuleName(1, mockFirstRuleName);
+		boolean response = ruleNameService.updateRule(1, mockFirstRuleName);
 
 		assertThat(response).isTrue();
 		verify(ruleNameRepositoryMock, times(1)).save(mockFirstRuleName);
@@ -95,13 +95,13 @@ public class RuleNameServiceTests {
 	}
 
 	@Test
-	public void testDeleteRuleName_ShouldReturn_True() throws RuleNameServiceException {
+	public void testDeleteRuleName_ShouldReturn_True() throws RuleServiceException {
 
 		// ARRANGE
-		when(ruleNameRepositoryMock.findRuleNameById(1)).thenReturn(Optional.of(mockFirstRuleName));
+		when(ruleNameRepositoryMock.findRuleById(1)).thenReturn(Optional.of(mockFirstRuleName));
 
 		// ACT
-		boolean response = ruleNameService.deleteRuleName(1);
+		boolean response = ruleNameService.deleteRule(1);
 
 		assertThat(response).isTrue();
 		verify(ruleNameRepositoryMock, times(1)).delete(mockFirstRuleName);

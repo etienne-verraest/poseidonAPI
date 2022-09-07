@@ -5,11 +5,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.poseidon.app.domain.RuleName;
+import com.poseidon.app.domain.Rule;
 
 @Repository
-public interface RuleNameRepository extends JpaRepository<RuleName, Integer> {
+public interface RuleRepository extends JpaRepository<Rule, Integer> {
 
-	Optional<RuleName> findRuleNameById(Integer id);
+	Optional<Rule> findRuleById(Integer id);
 
 }
