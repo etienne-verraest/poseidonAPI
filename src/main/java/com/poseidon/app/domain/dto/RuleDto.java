@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class RuleNameDto {
+public class RuleDto {
 
 	private Integer id;
 
