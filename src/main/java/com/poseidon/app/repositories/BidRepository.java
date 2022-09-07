@@ -5,10 +5,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.poseidon.app.domain.BidList;
+import com.poseidon.app.domain.Bid;
 
 @Repository
-public interface BidListRepository extends JpaRepository<BidList, Integer> {
+public interface BidRepository extends JpaRepository<Bid, Integer> {
 
-	Optional<BidList> findByBidListId(Integer bidListId);
+	Optional<Bid> findBidById(Integer id);
 }

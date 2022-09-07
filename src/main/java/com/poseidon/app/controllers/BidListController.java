@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.poseidon.app.domain.BidList;
-import com.poseidon.app.domain.dto.BidListDto;
-import com.poseidon.app.exceptions.BidListServiceException;
-import com.poseidon.app.services.BidListService;
+import com.poseidon.app.domain.Bid;
+import com.poseidon.app.domain.dto.BidDto;
+import com.poseidon.app.exceptions.BidServiceException;
+import com.poseidon.app.services.BidService;
 
 @Controller
 public class BidListController {
 
 	@Autowired
-	BidListService bidListService;
+	BidService bidService;
 
 	@Autowired
 	ModelMapper modelMapper;
@@ -31,7 +31,7 @@ public class BidListController {
 	 */
 	@RequestMapping("/bidList/list")
 	public String home(Model model) {
-		model.addAttribute("bids", bidListService.findAllBidList());
+		model.addAttribute("bids", bidService.findAllBids());
 		return "bidList/list";
 	}
 
@@ -42,24 +42,24 @@ public class BidListController {
 	 * @return									Add a bid view
 	 */
 	@GetMapping("/bidList/add")
-	public String addBidForm(BidListDto bidListDto) {
+	public String addBidForm(BidDto bidListDto) {
 		return "bidList/add";
 	}
 
 	/**
 	 * Validate the fields of the "Add Bid" Form
 	 *
-	 * @param bidListDto						BidListDto with filled fields that are going to be validated
+	 * @param bidDto							BidDto with filled fields that are going to be validated
 	 * @param result							The result of the validation
 	 * @return									Returns the list of bids if the form was validated, otherwise show errors
-	 * @throws BidListServiceException			Thrown if there is an error while creating the bid
+	 * @throws BidServiceException			Thrown if there is an error while creating the bid
 	 */
 	@PostMapping("/bidList/validate")
-	public String validate(@Valid BidListDto bidListDto, BindingResult result, Model model) throws BidListServiceException {
+	public String validate(@Valid BidDto bidDto, BindingResult result, Model model) throws BidServiceException {
 		if (!result.hasErrors()) {
-			BidList newBidList = modelMapper.map(bidListDto, BidList.class);
-			bidListService.createBidList(newBidList);
-			model.addAttribute("bids", bidListService.findAllBidList());
+			Bid newBidList = modelMapper.map(bidDto, Bid.class);
+			bidService.createBid(newBidList);
+			model.addAttribute("bids", bidService.findAllBids());
 			return "redirect:/bidList/list";
 		}
 		return "bidList/add";
@@ -70,16 +70,16 @@ public class BidListController {
 	 *
 	 * @param id								The bid ID that is going to be updated
 	 * @return								    The form to update a bid
-	 * @throws BidListServiceException			Thrown if the given ID was not found in database
+	 * @throws BidServiceException			Thrown if the given ID was not found in database
 	 */
 	@GetMapping("/bidList/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
 		try {
-			BidList bidListToUpdate = bidListService.findBidListById(id);
-			BidListDto bidList = modelMapper.map(bidListToUpdate, BidListDto.class);
-			model.addAttribute("bidListDto", bidList);
-		} catch (BidListServiceException error) {
+			Bid bidToUpdate = bidService.findBidById(id);
+			BidDto bidDto = modelMapper.map(bidToUpdate, BidDto.class);
+			model.addAttribute("bidDto", bidDto);
+		} catch (BidServiceException error) {
 			return "redirect:/bidList/list";
 		}
 
@@ -92,19 +92,19 @@ public class BidListController {
 	 * @param id								The ID that is going to be updated
 	 * @param bidListDto						The new fields that will be mapped to the existing bid
 	 * @return									Returns the list of bids if the form was validated, otherwise show errors
-	 * @throws BidListServiceException			Thrown if there is an error while updating the bid
+	 * @throws BidServiceException			Thrown if there is an error while updating the bid
 	 */
 	@PostMapping("/bidList/update/{id}")
-	public String updateBid(@PathVariable("id") Integer id, @Valid BidListDto bidListDto, BindingResult result,
-			Model model) throws BidListServiceException {
+	public String updateBid(@PathVariable("id") Integer id, @Valid BidDto bidDto, BindingResult result, Model model)
+			throws BidServiceException {
 
 		if (result.hasErrors()) {
 			return "bidList/update";
 		}
 
-		BidList newBid = modelMapper.map(bidListDto, BidList.class);
-		bidListService.updateBidList(id, newBid);
-		model.addAttribute("bids", bidListService.findAllBidList());
+		Bid newBid = modelMapper.map(bidDto, Bid.class);
+		bidService.updateBid(id, newBid);
+		model.addAttribute("bids", bidService.findAllBids());
 		return "redirect:/bidList/list";
 	}
 
@@ -113,17 +113,17 @@ public class BidListController {
 	 *
 	 * @param id								The ID that is going to be deleted
 	 * @return									The bid list if the deletion was successful
-	 * @throws BidListServiceException			Thrown if there was an error while deleting the bid
+	 * @throws BidServiceException			Thrown if there was an error while deleting the bid
 	 */
 	@GetMapping("/bidList/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {
 
 		try {
-			bidListService.deleteBidList(id);
-		} catch (BidListServiceException error) {
+			bidService.deleteBid(id);
+		} catch (BidServiceException error) {
 			return "redirect:/bidList/list";
 		}
-		model.addAttribute("bids", bidListService.findAllBidList());
+		model.addAttribute("bids", bidService.findAllBids());
 		return "redirect:/bidList/list";
 	}
 }
