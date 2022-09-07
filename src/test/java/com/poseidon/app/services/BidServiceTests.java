@@ -27,32 +27,32 @@ import com.poseidon.app.repositories.BidRepository;
 public class BidServiceTests {
 
 	@InjectMocks
-	BidService bidListService;
+	BidService bidService;
 
 	@Mock
-	BidRepository bidListRepositoryMock;
+	BidRepository bidRepositoryMock;
 
-	static Bid mockFirstBidList;
-	static Bid mockSecondBidList;
+	static Bid mockFirstBid;
+	static Bid mockSecondBid;
 	static List<Bid> bidListMock;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		bidListMock = new ArrayList<>();
-		mockFirstBidList = new Bid("First Account", "Main", 10d);
-		mockSecondBidList = new Bid("Second Account", "Secondary", 2d);
-		bidListMock.add(mockFirstBidList);
-		bidListMock.add(mockSecondBidList);
+		mockFirstBid = new Bid("First Account", "Main", 10d);
+		mockSecondBid = new Bid("Second Account", "Secondary", 2d);
+		bidListMock.add(mockFirstBid);
+		bidListMock.add(mockSecondBid);
 	}
 
 	@Test
 	public void test1_FindAllBidList_ShouldReturn_List() {
 
 		// ARRANGE
-		when(bidListRepositoryMock.findAll()).thenReturn(bidListMock);
+		when(bidRepositoryMock.findAll()).thenReturn(bidListMock);
 
 		// ACT
-		List<Bid> response = bidListService.findAllBids();
+		List<Bid> response = bidService.findAllBids();
 
 		// ASSERT
 		assertThat(response.get(0).getBidQuantity()).isEqualTo(10d);
@@ -64,10 +64,10 @@ public class BidServiceTests {
 	public void testFindBidListById_ShouldReturn_FirstBidList() throws BidServiceException {
 
 		// ARRANGE
-		when(bidListRepositoryMock.findBidById(1)).thenReturn(Optional.of(mockFirstBidList));
+		when(bidRepositoryMock.findBidById(1)).thenReturn(Optional.of(mockFirstBid));
 
 		// ACT
-		Bid response = bidListService.findBidById(1);
+		Bid response = bidService.findBidById(1);
 
 		// ASSERT
 		assertThat(response.getAccount()).isEqualTo("First Account");
@@ -78,11 +78,11 @@ public class BidServiceTests {
 	public void testCreateBidList_ShouldReturn_True() throws BidServiceException {
 
 		// ACT
-		boolean response = bidListService.createBid(mockFirstBidList);
+		boolean response = bidService.createBid(mockFirstBid);
 
 		// ASSERT
 		assertThat(response).isTrue();
-		verify(bidListRepositoryMock, times(1)).save(mockFirstBidList);
+		verify(bidRepositoryMock, times(1)).save(mockFirstBid);
 
 	}
 
@@ -90,15 +90,15 @@ public class BidServiceTests {
 	public void testUpdateBidList_ShouldReturn_True() throws BidServiceException {
 
 		// ARRANGE
-		when(bidListRepositoryMock.findBidById(1)).thenReturn(Optional.of(mockFirstBidList));
-		mockFirstBidList.setBidQuantity(4d);
+		when(bidRepositoryMock.findBidById(1)).thenReturn(Optional.of(mockFirstBid));
+		mockFirstBid.setBidQuantity(4d);
 
 		// ACT
-		boolean response = bidListService.updateBid(1, mockFirstBidList);
+		boolean response = bidService.updateBid(1, mockFirstBid);
 
 		// ASSERT
 		assertThat(response).isTrue();
-		verify(bidListRepositoryMock, times(1)).save(mockFirstBidList);
+		verify(bidRepositoryMock, times(1)).save(mockFirstBid);
 
 	}
 
@@ -106,14 +106,14 @@ public class BidServiceTests {
 	public void testDeleteBidList_ShouldReturn_True() throws BidServiceException {
 
 		// ARRANGE
-		when(bidListRepositoryMock.findBidById(2)).thenReturn(Optional.of(mockSecondBidList));
+		when(bidRepositoryMock.findBidById(2)).thenReturn(Optional.of(mockSecondBid));
 
 		// ACT
-		boolean response = bidListService.deleteBid(2);
+		boolean response = bidService.deleteBid(2);
 
 		// ASSERT
 		assertThat(response).isTrue();
-		verify(bidListRepositoryMock, times(1)).delete(mockSecondBidList);
+		verify(bidRepositoryMock, times(1)).delete(mockSecondBid);
 	}
 
 }

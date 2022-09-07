@@ -1,6 +1,7 @@
 package com.poseidon.app.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -96,6 +97,20 @@ public class RatingServiceTests {
 		assertThat(response).isTrue();
 		verify(ratingRepositoryMock, times(1)).save(mockSecondRating);
 
+	}
+
+	@Test(expected = RatingServiceException.class)
+	public void testUpdateRating_ShouldReturn_RatingServiceException() throws RatingServiceException {
+
+		// ARRANGE
+		when(ratingRepositoryMock.findRatingById(3)).thenReturn(Optional.empty());
+		Rating newRating = new Rating();
+
+		// ACT
+		ratingService.updateRating(3, newRating);
+
+		// ASSERT
+		verify(ratingRepositoryMock, never()).save(newRating);
 	}
 
 	@Test

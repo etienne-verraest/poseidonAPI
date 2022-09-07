@@ -1,6 +1,8 @@
 package com.poseidon.app.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -82,6 +84,19 @@ public class CurvePointServiceTests {
 
 	}
 
+	@Test(expected = RuntimeException.class)
+	public void testCreateCurvePoint_ShouldReturn_RuntimeException() throws CurvePointServiceException {
+
+		// ARRANGE
+		when(curvePointRepositoryMock.findCurvePointById(anyInt())).thenThrow(CurvePointServiceException.class);
+
+		// ACT
+		curvePointService.createCurvePoint(mockSecondCurvePoint);
+
+		// ASSERT
+		verify(curvePointRepositoryMock, never()).save(mockSecondCurvePoint);
+	}
+
 	@Test
 	public void testUpdateCurvePoint_ShouldReturn_True() throws CurvePointServiceException {
 
@@ -95,6 +110,20 @@ public class CurvePointServiceTests {
 		// ASSERT
 		assertThat(response).isTrue();
 		verify(curvePointRepositoryMock, times(1)).save(mockFirstCurvePoint);
+	}
+
+	@Test(expected = CurvePointServiceException.class)
+	public void testUpdateCurvePoint_ShouldReturn_CurvePointException() throws CurvePointServiceException {
+
+		// ARRANGE
+		when(curvePointRepositoryMock.findCurvePointById(3)).thenReturn(Optional.empty());
+		CurvePoint newCurvePoint = new CurvePoint();
+
+		// ACT
+		curvePointService.updateCurvePoint(3, newCurvePoint);
+
+		// ASSERT
+		verify(curvePointRepositoryMock, never()).save(newCurvePoint);
 	}
 
 	@Test
