@@ -54,7 +54,7 @@ public class BidService {
 	public boolean createBid(Bid bidEntity) throws BidServiceException {
 		if (bidEntity != null && !bidRepository.findBidById(bidEntity.getId()).isPresent()) {
 			bidRepository.save(bidEntity);
-			log.info("[BID SERVICE] Created new Bid List for account : '{}', quantity : '{}'", bidEntity.getAccount(),
+			log.info("[BID SERVICE] Created new bid for account : '{}', quantity : '{}'", bidEntity.getAccount(),
 					bidEntity.getBidQuantity());
 			return true;
 		}
@@ -79,7 +79,7 @@ public class BidService {
 			log.info("[BID SERVICE] Updated account '{}' with id '{}'", bidEntityUpdated.getAccount(), id);
 			return true;
 		}
-		throw new BidServiceException("Could not find bid list with id : " + id);
+		throw new BidServiceException("Could not find bid with id : " + id);
 	}
 
 	/**
@@ -93,10 +93,10 @@ public class BidService {
 		Optional<Bid> bid = bidRepository.findBidById(id);
 		if (id != null && bid.isPresent()) {
 			bidRepository.delete(bid.get());
-			log.info("[BID SERVICE] Deleted bid list with id '{}'", id);
+			log.info("[BID SERVICE] Deleted bid with id '{}'", id);
 			return true;
 		}
-		throw new BidServiceException("Could not find bid list with id : " + id);
+		throw new BidServiceException("Could not find bid with id : " + id);
 	}
 
 }
