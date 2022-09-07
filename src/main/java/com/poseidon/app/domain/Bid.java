@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "bidlist")
 @Data
 @NoArgsConstructor
-public class BidList {
+public class Bid {
 
-	public BidList(String account, String type, Double bidQuantity) {
+	public Bid(String account, String type, Double bidQuantity) {
 		this.account = account;
 		this.type = type;
 		this.bidQuantity = bidQuantity;
@@ -27,7 +27,7 @@ public class BidList {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "BidListId")
-	private Integer bidListId;
+	private Integer id;
 
 	@Column
 	private String account;

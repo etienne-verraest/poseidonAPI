@@ -18,29 +18,29 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.poseidon.app.domain.BidList;
-import com.poseidon.app.exceptions.BidListServiceException;
-import com.poseidon.app.repositories.BidListRepository;
+import com.poseidon.app.domain.Bid;
+import com.poseidon.app.exceptions.BidServiceException;
+import com.poseidon.app.repositories.BidRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class BidListServiceTests {
+public class BidServiceTests {
 
 	@InjectMocks
-	BidListService bidListService;
+	BidService bidListService;
 
 	@Mock
-	BidListRepository bidListRepositoryMock;
+	BidRepository bidListRepositoryMock;
 
-	static BidList mockFirstBidList;
-	static BidList mockSecondBidList;
-	static List<BidList> bidListMock;
+	static Bid mockFirstBidList;
+	static Bid mockSecondBidList;
+	static List<Bid> bidListMock;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		bidListMock = new ArrayList<>();
-		mockFirstBidList = new BidList("First Account", "Main", 10d);
-		mockSecondBidList = new BidList("Second Account", "Secondary", 2d);
+		mockFirstBidList = new Bid("First Account", "Main", 10d);
+		mockSecondBidList = new Bid("Second Account", "Secondary", 2d);
 		bidListMock.add(mockFirstBidList);
 		bidListMock.add(mockSecondBidList);
 	}
@@ -52,7 +52,7 @@ public class BidListServiceTests {
 		when(bidListRepositoryMock.findAll()).thenReturn(bidListMock);
 
 		// ACT
-		List<BidList> response = bidListService.findAllBidList();
+		List<Bid> response = bidListService.findAllBids();
 
 		// ASSERT
 		assertThat(response.get(0).getBidQuantity()).isEqualTo(10d);
@@ -61,13 +61,13 @@ public class BidListServiceTests {
 	}
 
 	@Test
-	public void testFindBidListById_ShouldReturn_FirstBidList() throws BidListServiceException {
+	public void testFindBidListById_ShouldReturn_FirstBidList() throws BidServiceException {
 
 		// ARRANGE
-		when(bidListRepositoryMock.findByBidListId(1)).thenReturn(Optional.of(mockFirstBidList));
+		when(bidListRepositoryMock.findBidById(1)).thenReturn(Optional.of(mockFirstBidList));
 
 		// ACT
-		BidList response = bidListService.findBidListById(1);
+		Bid response = bidListService.findBidById(1);
 
 		// ASSERT
 		assertThat(response.getAccount()).isEqualTo("First Account");
@@ -75,10 +75,10 @@ public class BidListServiceTests {
 	}
 
 	@Test
-	public void testCreateBidList_ShouldReturn_True() throws BidListServiceException {
+	public void testCreateBidList_ShouldReturn_True() throws BidServiceException {
 
 		// ACT
-		boolean response = bidListService.createBidList(mockFirstBidList);
+		boolean response = bidListService.createBid(mockFirstBidList);
 
 		// ASSERT
 		assertThat(response).isTrue();
@@ -87,14 +87,14 @@ public class BidListServiceTests {
 	}
 
 	@Test
-	public void testUpdateBidList_ShouldReturn_True() throws BidListServiceException {
+	public void testUpdateBidList_ShouldReturn_True() throws BidServiceException {
 
 		// ARRANGE
-		when(bidListRepositoryMock.findByBidListId(1)).thenReturn(Optional.of(mockFirstBidList));
+		when(bidListRepositoryMock.findBidById(1)).thenReturn(Optional.of(mockFirstBidList));
 		mockFirstBidList.setBidQuantity(4d);
 
 		// ACT
-		boolean response = bidListService.updateBidList(1, mockFirstBidList);
+		boolean response = bidListService.updateBid(1, mockFirstBidList);
 
 		// ASSERT
 		assertThat(response).isTrue();
@@ -103,13 +103,13 @@ public class BidListServiceTests {
 	}
 
 	@Test
-	public void testDeleteBidList_ShouldReturn_True() throws BidListServiceException {
+	public void testDeleteBidList_ShouldReturn_True() throws BidServiceException {
 
 		// ARRANGE
-		when(bidListRepositoryMock.findByBidListId(2)).thenReturn(Optional.of(mockSecondBidList));
+		when(bidListRepositoryMock.findBidById(2)).thenReturn(Optional.of(mockSecondBidList));
 
 		// ACT
-		boolean response = bidListService.deleteBidList(2);
+		boolean response = bidListService.deleteBid(2);
 
 		// ASSERT
 		assertThat(response).isTrue();

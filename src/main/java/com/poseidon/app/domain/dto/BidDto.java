@@ -5,11 +5,13 @@ import javax.validation.constraints.NotBlank;
 import com.poseidon.app.validation.Numeric;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class BidListDto {
+@NoArgsConstructor
+public class BidDto {
 
-	private Integer bidListId;
+	private Integer id;
 
 	@NotBlank(message = "Account is mandatory")
 	private String account;
