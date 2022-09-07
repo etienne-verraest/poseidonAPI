@@ -26,7 +26,7 @@ public class Trade {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "TradeId")
-	private Integer tradeId;
+	private Integer id;
 
 	@Column
 	private String account;

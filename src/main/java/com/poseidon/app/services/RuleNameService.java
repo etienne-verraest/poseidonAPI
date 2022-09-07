@@ -20,7 +20,7 @@ public class RuleNameService {
 	RuleNameRepository ruleNameRepository;
 
 	/**
-	 * Get a list of every ruless
+	 * Get a list of every rules
 	 * @return									List<RuleName> with existing rules
 	 */
 	public List<RuleName> findAllRuleNames() {
