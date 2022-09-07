@@ -10,10 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -23,7 +21,6 @@ import com.poseidon.app.exceptions.CurvePointServiceException;
 import com.poseidon.app.repositories.CurvePointRepository;
 
 @RunWith(MockitoJUnitRunner.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CurvePointServiceTests {
 
 	@InjectMocks
@@ -46,7 +43,7 @@ public class CurvePointServiceTests {
 	}
 
 	@Test
-	public void test1_FindAllCurvePoint_ShouldReturn_List() {
+	public void testFindAllCurvePoint_ShouldReturn_List() {
 
 		// ARRANGE
 		when(curvePointRepositoryMock.findAll()).thenReturn(curvePointListMock);
@@ -61,7 +58,7 @@ public class CurvePointServiceTests {
 	}
 
 	@Test
-	public void test1_FindCurvePointById_ShouldReturn_FirstCurvePoint() throws CurvePointServiceException {
+	public void testFindCurvePointById_ShouldReturn_FirstCurvePoint() throws CurvePointServiceException {
 
 		// ARRANGE
 		when(curvePointRepositoryMock.findCurvePointById(1)).thenReturn(Optional.of(mockFirstCurvePoint));
@@ -70,7 +67,6 @@ public class CurvePointServiceTests {
 		CurvePoint response = curvePointService.findCurvePointById(1);
 
 		// ARRANGE
-		assertThat(response.getValue()).isEqualTo(15d);
 		assertThat(response.getTerm()).isEqualTo(15d);
 	}
 
