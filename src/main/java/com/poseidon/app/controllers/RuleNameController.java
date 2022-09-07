@@ -1,5 +1,9 @@
 package com.poseidon.app.controllers;
 
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,47 +13,117 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.poseidon.app.domain.RuleName;
-
-import javax.validation.Valid;
+import com.poseidon.app.domain.dto.RuleNameDto;
+import com.poseidon.app.exceptions.RuleNameServiceException;
+import com.poseidon.app.services.RuleNameService;
 
 @Controller
 public class RuleNameController {
-    // TODO: Inject RuleName service
 
-    @RequestMapping("/ruleName/list")
-    public String home(Model model)
-    {
-        // TODO: find all RuleName, add to model
-        return "ruleName/list";
-    }
+	@Autowired
+	RuleNameService ruleNameService;
 
-    @GetMapping("/ruleName/add")
-    public String addRuleForm(RuleName bid) {
-        return "ruleName/add";
-    }
+	@Autowired
+	ModelMapper modelMapper;
 
-    @PostMapping("/ruleName/validate")
-    public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return RuleName list
-        return "ruleName/add";
-    }
+	/**
+	 * Show the rules page
+	 */
+	@RequestMapping("/ruleName/list")
+	public String home(Model model) {
+		model.addAttribute("rules", ruleNameService.findAllRuleNames());
+		return "ruleName/list";
+	}
 
-    @GetMapping("/ruleName/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get RuleName by Id and to model then show to the form
-        return "ruleName/update";
-    }
+	/**
+	 * Show the form to add a Rule
+	 *
+	 * @param ruleNameDto						RuleNameDto with fields that are required to create a new rule
+	 * @return									Add a Rule view
+	 */
+	@GetMapping("/ruleName/add")
+	public String addRuleForm(RuleNameDto ruleNameDto) {
+		return "ruleName/add";
+	}
 
-    @PostMapping("/ruleName/update/{id}")
-    public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName,
-                             BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update RuleName and return RuleName list
-        return "redirect:/ruleName/list";
-    }
+	/**
+	 * Validate the fields of the "Add Rule" Form
+	 *
+	 * @param ruleNameDto						RuleNameDto with filled fields that are going to be validated
+	 * @param result							The result of the validation
+	 * @return									Returns the list of rules if the form was validated, otherwise show errors
+	 * @throws RuleNameServiceException			Thrown if there is an error while creating the rule
+	 */
+	@PostMapping("/ruleName/validate")
+	public String validate(@Valid RuleNameDto ruleNameDto, BindingResult result, Model model)
+			throws RuleNameServiceException {
+		if (!result.hasErrors()) {
+			RuleName newRuleName = modelMapper.map(ruleNameDto, RuleName.class);
+			ruleNameService.createRuleName(newRuleName);
+			model.addAttribute("rules", ruleNameService.findAllRuleNames());
+			return "redirect:/ruleName/list";
+		}
+		return "ruleName/add";
+	}
 
-    @GetMapping("/ruleName/delete/{id}")
-    public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find RuleName by Id and delete the RuleName, return to Rule list
-        return "redirect:/ruleName/list";
-    }
+	/**
+	 * Update a Rule
+	 *
+	 * @param id								The ID that is going to be updated
+	 * @return								    The form to update a rule
+	 * @throws RuleNameServiceException			Thrown if the given ID was not found in database
+	 */
+	@GetMapping("/ruleName/update/{id}")
+	public String showUpdateForm(@PathVariable("id") Integer id, Model model) throws RuleNameServiceException {
+
+		try {
+			RuleName ruleNameToUpdate = ruleNameService.findRuleNameById(id);
+			RuleNameDto ruleNameDto = modelMapper.map(ruleNameToUpdate, RuleNameDto.class);
+			ruleNameDto.setId(id);
+			model.addAttribute("ruleNameDto", ruleNameDto);
+		} catch (RuleNameServiceException error) {
+			return "redirect:/ruleName/list";
+		}
+		return "ruleName/update";
+	}
+
+	/**
+	 * Validate the fields for rule updating
+	 *
+	 * @param id								The ID that is going to be updated
+	 * @param ruleNameDto						The new fields that will be mapped to the existing rule
+	 * @return									Returns the list of rules if the form is valid, otherwise show errors
+	 * @throws RuleNameServiceException			Thrown if there is an error while updating the rule
+	 */
+	@PostMapping("/ruleName/update/{id}")
+	public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleNameDto ruleNameDto, BindingResult result,
+			Model model) throws RuleNameServiceException {
+
+		if (result.hasErrors()) {
+			return "ruleName/update";
+		}
+
+		RuleName updatedRuleName = modelMapper.map(ruleNameDto, RuleName.class);
+		ruleNameService.updateRuleName(id, updatedRuleName);
+		model.addAttribute("rules", ruleNameService.findAllRuleNames());
+		return "redirect:/ruleName/list";
+	}
+
+	/**
+	 * Delete a rule
+	 *
+	 * @param id								The ID that is going to be deleted
+	 * @return									The rules list if the deletion was successful
+	 * @throws RuleNameServiceException			Thrown if there was an error while deleting the given rule
+	 */
+	@GetMapping("/ruleName/delete/{id}")
+	public String deleteRuleName(@PathVariable("id") Integer id, Model model) throws RuleNameServiceException {
+		try {
+			ruleNameService.deleteRuleName(id);
+		} catch (RuleNameServiceException error) {
+			return "redirect:/ruleName/list";
+		}
+		model.addAttribute("rules", ruleNameService.findAllRuleNames());
+		return "redirect:/ruleName/list";
+	}
 }
