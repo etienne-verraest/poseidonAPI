@@ -24,8 +24,8 @@ public class Trade {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "TradeId")
+	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column

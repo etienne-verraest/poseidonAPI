@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 @SuppressWarnings("serial")
@@ -25,10 +24,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-@Generated // Tells Coverage that this class is generated with Lombok
 public class User implements UserDetails {
 
-	// This constructor is used for connection
 	public User(User user) {
 		this.username = user.getUsername();
 		this.password = user.getPassword();
@@ -36,8 +33,8 @@ public class User implements UserDetails {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column

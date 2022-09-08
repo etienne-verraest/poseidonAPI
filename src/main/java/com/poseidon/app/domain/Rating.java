@@ -24,14 +24,14 @@ public class Rating {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Id")
+	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column
 	private String moodysRating;
 
-	@Column
+	@Column(name = "sandp_rating")
 	private String sandPRating;
 
 	@Column

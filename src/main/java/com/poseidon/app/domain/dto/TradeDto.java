@@ -16,5 +16,5 @@ public class TradeDto {
 	private String type;
 
 	@Numeric
-	private Double buyQuantity;
+	private String buyQuantity;
 }

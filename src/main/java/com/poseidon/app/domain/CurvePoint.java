@@ -25,11 +25,11 @@ public class CurvePoint {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Id")
+	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "CurveId")
+	@Column(name = "curve_id")
 	private Integer curveId;
 
 	@Column
