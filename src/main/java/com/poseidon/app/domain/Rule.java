@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "rulename")
+@Table(name = "rule")
 @NoArgsConstructor
 public class Rule {
 
@@ -26,8 +26,8 @@ public class Rule {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Id")
+	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column

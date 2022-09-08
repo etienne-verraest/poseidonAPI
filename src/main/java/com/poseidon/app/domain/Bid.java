@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "bidlist")
+@Table(name = "bid")
 @Data
 @NoArgsConstructor
 public class Bid {
@@ -25,8 +25,8 @@ public class Bid {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "BidListId")
+	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column
@@ -42,7 +42,7 @@ public class Bid {
 	private Double askQuantity;
 
 	@Column
-	private Double bid;
+	private Double bidDate;
 
 	@Column
 	private Double ask;
