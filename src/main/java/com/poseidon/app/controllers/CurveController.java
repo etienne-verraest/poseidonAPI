@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.poseidon.app.config.BootstrapAlerts;
 import com.poseidon.app.domain.CurvePoint;
 import com.poseidon.app.domain.dto.CurvePointDto;
 import com.poseidon.app.exceptions.CurvePointServiceException;
@@ -51,12 +53,16 @@ public class CurveController {
 	 * @throws CurvePointServiceException		Thrown if there is an error while creating the curve point
 	 */
 	@PostMapping("/curvePoint/validate")
-	public String validate(@Valid CurvePointDto curvePointDto, BindingResult result, Model model)
-			throws CurvePointServiceException {
+	public String validate(@Valid CurvePointDto curvePointDto, BindingResult result, Model model,
+			RedirectAttributes redirectAttributes) throws CurvePointServiceException {
+
 		if (!result.hasErrors()) {
 			CurvePoint newCurvePoint = curvePointService.convertDtoToEntity(curvePointDto);
 			curvePointService.createCurvePoint(newCurvePoint);
 			model.addAttribute("curvePoints", curvePointService.findAllCurvePoint());
+			redirectAttributes.addFlashAttribute("message",
+					String.format("Curve Point with id '%d' was successfully created", newCurvePoint.getId()));
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
 			return "redirect:/curvePoint/list";
 		}
 		return "curvePoint/add";
@@ -70,15 +76,20 @@ public class CurveController {
 	 * @throws CurvePointServiceException		Thrown if the given ID was not found in database
 	 */
 	@GetMapping("/curvePoint/update/{id}")
-	public String showUpdateForm(@PathVariable("id") Integer id, Model model) throws CurvePointServiceException {
+	public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes)
+			throws CurvePointServiceException {
+
 		try {
 			CurvePoint curvePointToUpdate = curvePointService.findCurvePointById(id);
 			CurvePointDto curvePointDto = curvePointService.convertEntityToDto(curvePointToUpdate);
 			curvePointDto.setId(id);
 			model.addAttribute("curvePointDto", curvePointDto);
 		} catch (CurvePointServiceException error) {
+			redirectAttributes.addFlashAttribute("message", error.getMessage());
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.WARNING);
 			return "redirect:/curvePoint/list";
 		}
+
 		return "curvePoint/update";
 	}
 
@@ -92,14 +103,19 @@ public class CurveController {
 	 */
 	@PostMapping("/curvePoint/update/{id}")
 	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePointDto curvePointDto,
-			BindingResult result, Model model) throws CurvePointServiceException {
+			BindingResult result, Model model, RedirectAttributes redirectAttributes)
+			throws CurvePointServiceException {
 
 		if (result.hasErrors()) {
 			return "curvePoint/update";
 		}
+
 		CurvePoint updatedCurvePoint = curvePointService.convertDtoToEntity(curvePointDto);
 		curvePointService.updateCurvePoint(id, updatedCurvePoint);
 		model.addAttribute("curvePoints", curvePointService.findAllCurvePoint());
+		redirectAttributes.addFlashAttribute("message",
+				String.format("Curve Point with id '%d' was successfully updated", id));
+		redirectAttributes.addFlashAttribute("message_type", "alert-primary");
 		return "redirect:/curvePoint/list";
 	}
 
@@ -111,12 +127,18 @@ public class CurveController {
 	 * @throws CurvePointServiceException		Thrown if there was an error while deleting the curve point
 	 */
 	@GetMapping("/curvePoint/delete/{id}")
-	public String deleteCurvePoint(@PathVariable("id") Integer id, Model model) throws CurvePointServiceException {
+	public String deleteCurvePoint(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes)
+			throws CurvePointServiceException {
 		try {
 			curvePointService.deleteCurvePoint(id);
 		} catch (CurvePointServiceException error) {
+			redirectAttributes.addFlashAttribute("message", error.getMessage());
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.WARNING);
 			return "redirect:/curvePoint/list";
 		}
+		redirectAttributes.addFlashAttribute("message",
+				String.format("Curve Point with id '%d' was successfully deleted", id));
+		redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
 		model.addAttribute("curvePoints", curvePointService.findAllCurvePoint());
 		return "redirect:/curvePoint/list";
 	}

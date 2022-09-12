@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.poseidon.app.config.BootstrapAlerts;
 import com.poseidon.app.domain.Trade;
 import com.poseidon.app.domain.dto.TradeDto;
 import com.poseidon.app.exceptions.TradeServiceException;
@@ -27,7 +29,9 @@ public class TradeController {
 	 */
 	@RequestMapping("/trade/list")
 	public String home(Model model) {
+
 		model.addAttribute("trades", tradeService.findAllTrades());
+
 		return "trade/list";
 	}
 
@@ -39,6 +43,7 @@ public class TradeController {
 	 */
 	@GetMapping("/trade/add")
 	public String addUser(TradeDto tradeDto) {
+
 		return "trade/add";
 	}
 
@@ -51,13 +56,22 @@ public class TradeController {
 	 * @throws TradeServiceException			Thrown if there is an error while creating the trade
 	 */
 	@PostMapping("/trade/validate")
-	public String validate(@Valid TradeDto tradeDto, BindingResult result, Model model) throws TradeServiceException {
+	public String validate(@Valid TradeDto tradeDto, BindingResult result, Model model,
+			RedirectAttributes redirectAttributes) throws TradeServiceException {
+
 		if (!result.hasErrors()) {
 			Trade newTrade = tradeService.convertDtoToEntity(tradeDto);
 			tradeService.createTrade(newTrade);
+
+			redirectAttributes.addFlashAttribute("message",
+					String.format("Trade with id '%d' was successfully created", newTrade.getId()));
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
+
 			model.addAttribute("trades", tradeService.findAllTrades());
+
 			return "redirect:/trade/list";
 		}
+
 		return "trade/add";
 	}
 
@@ -69,15 +83,20 @@ public class TradeController {
 	 * @throws TradeServiceException			Thrown if the given ID was not found in database
 	 */
 	@GetMapping("/trade/update/{id}")
-	public String showUpdateForm(@PathVariable("id") Integer id, Model model) throws TradeServiceException {
+	public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes)
+			throws TradeServiceException {
+
 		try {
 			Trade tradeToUpdate = tradeService.findTradeById(id);
 			TradeDto tradeDto = tradeService.convertEntityToDto(tradeToUpdate);
 			tradeDto.setId(id);
 			model.addAttribute("tradeDto", tradeDto);
 		} catch (TradeServiceException error) {
+			redirectAttributes.addFlashAttribute("message", error.getMessage());
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.WARNING);
 			return "redirect:/trade/list";
 		}
+
 		return "trade/update";
 	}
 
@@ -91,7 +110,7 @@ public class TradeController {
 	 */
 	@PostMapping("/trade/update/{id}")
 	public String updateTrade(@PathVariable("id") Integer id, @Valid TradeDto tradeDto, BindingResult result,
-			Model model) throws TradeServiceException {
+			Model model, RedirectAttributes redirectAttributes) throws TradeServiceException {
 
 		if (result.hasErrors()) {
 			return "trade/update";
@@ -99,7 +118,13 @@ public class TradeController {
 
 		Trade updatedTrade = tradeService.convertDtoToEntity(tradeDto);
 		tradeService.updateTrade(id, updatedTrade);
+
+		redirectAttributes.addFlashAttribute("message",
+				String.format("Trade with id '%d' was successfully updated", id));
+		redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
+
 		model.addAttribute("trades", tradeService.findAllTrades());
+
 		return "redirect:/trade/list";
 	}
 
@@ -111,13 +136,24 @@ public class TradeController {
 	 * @throws TradeServiceException			Thrown if there was an error while deleting the given trade
 	 */
 	@GetMapping("/trade/delete/{id}")
-	public String deleteTrade(@PathVariable("id") Integer id, Model model) throws TradeServiceException {
+	public String deleteTrade(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes)
+			throws TradeServiceException {
+
 		try {
 			tradeService.deleteTrade(id);
 		} catch (TradeServiceException error) {
+			redirectAttributes.addFlashAttribute("message", error.getMessage());
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.WARNING);
+
 			return "redirect:/trade/list";
 		}
+
+		redirectAttributes.addFlashAttribute("message",
+				String.format("Trade with id '%d' was successfully deleted", id));
+		redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
+
 		model.addAttribute("trades", tradeService.findAllTrades());
+
 		return "redirect:/trade/list";
 	}
 }

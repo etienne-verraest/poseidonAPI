@@ -3,6 +3,7 @@ package com.poseidon.app.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.poseidon.app.domain.User;
+import com.poseidon.app.domain.dto.UserDto;
 import com.poseidon.app.exceptions.UserServiceException;
 import com.poseidon.app.repositories.UserRepository;
 
@@ -24,6 +26,9 @@ public class UserService implements UserDetailsService {
 	UserRepository userRepository;
 
 	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+	@Autowired
+	ModelMapper modelMapper;
 
 	/**
 	 * Spring Security implemented method
@@ -123,4 +128,11 @@ public class UserService implements UserDetailsService {
 		throw new UserServiceException("Could not find user with id : " + userId);
 	}
 
+	public User convertDtoToEntity(UserDto userDto) {
+		return modelMapper.map(userDto, User.class);
+	}
+
+	public UserDto convertEntityToDto(User userEntity) {
+		return modelMapper.map(userEntity, UserDto.class);
+	}
 }

@@ -44,7 +44,7 @@ public class TradeService {
 		if (id != null && trade.isPresent()) {
 			return trade.get();
 		}
-		throw new TradeServiceException("Trade was not found with given ID");
+		throw new TradeServiceException("Could not find trade with id : " + id);
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class TradeService {
 			log.info("[TRADE SERVICE] Created a new trade with id '{}'", tradeEntity.getId());
 			return true;
 		}
-		throw new TradeServiceException("There was an error while creating the Trade");
+		throw new TradeServiceException("There was an error while creating the trade");
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class TradeService {
 			log.info("[TRADE SERVICE] Updated trade id '{}'", tradeEntityUpdated.getId());
 			return true;
 		}
-		throw new TradeServiceException("Could not find rule with id : " + id);
+		throw new TradeServiceException("Could not find trade with id : " + id);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class TradeService {
 			log.info("[TRADE SERVICE] Deleted trade id '{}'", id);
 			return true;
 		}
-		throw new TradeServiceException("Could not find Trade with id : " + id);
+		throw new TradeServiceException("Could not find trade with id : " + id);
 	}
 
 	public Trade convertDtoToEntity(TradeDto tradeDto) {

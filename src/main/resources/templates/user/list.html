@@ -10,17 +10,20 @@
 <div class="container">
 	<div class="row">
 		<div class="col-6">
-
+			<span class="h3">Poseidon</span><br>
 		</div>
+		
 		<div class="col-6 text-right">
-			Welcome, <b th:inline="text" class="user"> [[${#httpServletRequest.remoteUser}]] </b>
+			Welcome, <strong th:inline="text" class="user"> [[${#httpServletRequest.remoteUser}]] </strong>
 			<br><a href="/">Home</a>&nbsp;|&nbsp;<a href="/app-logout">Logout</a>
 		</div>
 	</div>
 	
 	<div class="col-12">
-		<br>
-		<div class="row h5">User List</div>
+		<br><span class="row h5">User List</span>
+		
+		<div th:insert="fragments/alertBox :: alert"></div>
+		
 		<div class="row">
 			<a href="/user/add" class="btn btn-primary btn-sm">Add New</a>
 			<table class="table table-bordered">

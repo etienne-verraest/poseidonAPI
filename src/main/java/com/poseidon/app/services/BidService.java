@@ -45,7 +45,7 @@ public class BidService {
 		if (id != null && bid.isPresent()) {
 			return bid.get();
 		}
-		throw new BidServiceException("Bid was not found with given ID");
+		throw new BidServiceException("Could not find bid with id : " + id);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class BidService {
 					bidEntity.getBidQuantity());
 			return true;
 		}
-		throw new BidServiceException("There was an error while creating the Bid List");
+		throw new BidServiceException("There was an error while creating the Bid");
 	}
 
 	/**

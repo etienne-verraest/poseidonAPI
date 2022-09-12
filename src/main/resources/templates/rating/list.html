@@ -12,8 +12,10 @@
 	<div th:insert="fragments/header :: header"></div>
 	
 	<div class="col-12">
-		<br>
-		<div class="row h5">Rating List</div>
+		<br><span class="row h5">Rating List</span>
+		
+		<div th:insert="fragments/alertBox :: alert"></div>
+		
 		<div class="row">
 			<a href="/rating/add" class="btn btn-primary btn-sm">Add New</a>
 			<table class="table table-bordered">
