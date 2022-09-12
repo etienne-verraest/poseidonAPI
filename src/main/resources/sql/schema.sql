@@ -118,3 +118,5 @@ CREATE TABLE `users` (
   `role` varchar(125) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- TODO : Ajouter 2 utilisateurs
