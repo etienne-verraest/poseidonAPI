@@ -23,8 +23,14 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
 			boolean hasSymbol = false;
 
 			char[] characters = value.toCharArray();
+
 			// Checking for others conditions
 			for (char ch : characters) {
+
+				// If there is space characters in the password it is automatically rejected
+				if (Character.isSpaceChar(ch)) {
+					return false;
+				}
 
 				if (!Character.isLetterOrDigit(ch) && !Character.isSpaceChar(ch)) {
 					hasSymbol = true;
