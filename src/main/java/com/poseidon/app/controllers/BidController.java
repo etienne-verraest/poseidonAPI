@@ -2,7 +2,6 @@ package com.poseidon.app.controllers;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +17,10 @@ import com.poseidon.app.exceptions.BidServiceException;
 import com.poseidon.app.services.BidService;
 
 @Controller
-public class BidListController {
+public class BidController {
 
 	@Autowired
 	BidService bidService;
-
-	@Autowired
-	ModelMapper modelMapper;
 
 	/**
 	 * Show the BidList page
@@ -57,8 +53,8 @@ public class BidListController {
 	@PostMapping("/bidList/validate")
 	public String validate(@Valid BidDto bidDto, BindingResult result, Model model) throws BidServiceException {
 		if (!result.hasErrors()) {
-			Bid newBidList = modelMapper.map(bidDto, Bid.class);
-			bidService.createBid(newBidList);
+			Bid newBid = bidService.convertDtoToEntity(bidDto);
+			bidService.createBid(newBid);
 			model.addAttribute("bids", bidService.findAllBids());
 			return "redirect:/bidList/list";
 		}
@@ -77,7 +73,7 @@ public class BidListController {
 
 		try {
 			Bid bidToUpdate = bidService.findBidById(id);
-			BidDto bidDto = modelMapper.map(bidToUpdate, BidDto.class);
+			BidDto bidDto = bidService.convertEntityToDto(bidToUpdate);
 			model.addAttribute("bidDto", bidDto);
 		} catch (BidServiceException error) {
 			return "redirect:/bidList/list";
@@ -102,8 +98,8 @@ public class BidListController {
 			return "bidList/update";
 		}
 
-		Bid newBid = modelMapper.map(bidDto, Bid.class);
-		bidService.updateBid(id, newBid);
+		Bid updatedBid = bidService.convertDtoToEntity(bidDto);
+		bidService.updateBid(id, updatedBid);
 		model.addAttribute("bids", bidService.findAllBids());
 		return "redirect:/bidList/list";
 	}

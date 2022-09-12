@@ -3,10 +3,12 @@ package com.poseidon.app.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poseidon.app.domain.Rule;
+import com.poseidon.app.domain.dto.RuleDto;
 import com.poseidon.app.exceptions.RuleServiceException;
 import com.poseidon.app.repositories.RuleRepository;
 
@@ -18,6 +20,9 @@ public class RuleService {
 
 	@Autowired
 	RuleRepository ruleNameRepository;
+
+	@Autowired
+	ModelMapper modelMapper;
 
 	/**
 	 * Get a list of every rules
@@ -96,6 +101,14 @@ public class RuleService {
 			return true;
 		}
 		throw new RuleServiceException("Could not find rule with id : " + id);
+	}
+
+	public Rule convertDtoToEntity(RuleDto ruleDto) {
+		return modelMapper.map(ruleDto, Rule.class);
+	}
+
+	public RuleDto convertEntityToDto(Rule ruleEntity) {
+		return modelMapper.map(ruleEntity, RuleDto.class);
 	}
 
 }

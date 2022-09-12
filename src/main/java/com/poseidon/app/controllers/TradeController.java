@@ -2,7 +2,6 @@ package com.poseidon.app.controllers;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +21,6 @@ public class TradeController {
 
 	@Autowired
 	TradeService tradeService;
-
-	@Autowired
-	ModelMapper modelMapper;
 
 	/**
 	 * Show the trades page
@@ -57,7 +53,7 @@ public class TradeController {
 	@PostMapping("/trade/validate")
 	public String validate(@Valid TradeDto tradeDto, BindingResult result, Model model) throws TradeServiceException {
 		if (!result.hasErrors()) {
-			Trade newTrade = modelMapper.map(tradeDto, Trade.class);
+			Trade newTrade = tradeService.convertDtoToEntity(tradeDto);
 			tradeService.createTrade(newTrade);
 			model.addAttribute("trades", tradeService.findAllTrades());
 			return "redirect:/trade/list";
@@ -76,7 +72,7 @@ public class TradeController {
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) throws TradeServiceException {
 		try {
 			Trade tradeToUpdate = tradeService.findTradeById(id);
-			TradeDto tradeDto = modelMapper.map(tradeToUpdate, TradeDto.class);
+			TradeDto tradeDto = tradeService.convertEntityToDto(tradeToUpdate);
 			tradeDto.setId(id);
 			model.addAttribute("tradeDto", tradeDto);
 		} catch (TradeServiceException error) {
@@ -101,7 +97,7 @@ public class TradeController {
 			return "trade/update";
 		}
 
-		Trade updatedTrade = modelMapper.map(tradeDto, Trade.class);
+		Trade updatedTrade = tradeService.convertDtoToEntity(tradeDto);
 		tradeService.updateTrade(id, updatedTrade);
 		model.addAttribute("trades", tradeService.findAllTrades());
 		return "redirect:/trade/list";

@@ -3,10 +3,12 @@ package com.poseidon.app.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poseidon.app.domain.Bid;
+import com.poseidon.app.domain.dto.BidDto;
 import com.poseidon.app.exceptions.BidServiceException;
 import com.poseidon.app.repositories.BidRepository;
 
@@ -18,6 +20,9 @@ public class BidService {
 
 	@Autowired
 	BidRepository bidRepository;
+
+	@Autowired
+	ModelMapper modelMapper;
 
 	/**
 	 * Get a list of every Bid
@@ -97,6 +102,14 @@ public class BidService {
 			return true;
 		}
 		throw new BidServiceException("Could not find bid with id : " + id);
+	}
+
+	public Bid convertDtoToEntity(BidDto bidDto) {
+		return modelMapper.map(bidDto, Bid.class);
+	}
+
+	public BidDto convertEntityToDto(Bid bidEntity) {
+		return modelMapper.map(bidEntity, BidDto.class);
 	}
 
 }

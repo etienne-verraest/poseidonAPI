@@ -2,7 +2,6 @@ package com.poseidon.app.controllers;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +21,6 @@ public class RatingController {
 
 	@Autowired
 	RatingService ratingService;
-
-	@Autowired
-	ModelMapper modelMapper;
 
 	/**
 	 * Show the ratings page
@@ -58,7 +54,7 @@ public class RatingController {
 	public String validate(@Valid RatingDto ratingDto, BindingResult result, Model model)
 			throws RatingServiceException {
 		if (!result.hasErrors()) {
-			Rating newRating = modelMapper.map(ratingDto, Rating.class);
+			Rating newRating = ratingService.convertDtoToEntity(ratingDto);
 			ratingService.createRating(newRating);
 			model.addAttribute("ratings", ratingService.findAllRatings());
 			return "redirect:/rating/list";
@@ -77,7 +73,7 @@ public class RatingController {
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) throws RatingServiceException {
 		try {
 			Rating ratingToUpdate = ratingService.findRatingById(id);
-			RatingDto ratingDto = modelMapper.map(ratingToUpdate, RatingDto.class);
+			RatingDto ratingDto = ratingService.convertEntityToDto(ratingToUpdate);
 			ratingDto.setId(id);
 			model.addAttribute("ratingDto", ratingDto);
 		} catch (RatingServiceException error) {
@@ -101,7 +97,7 @@ public class RatingController {
 		if (result.hasErrors()) {
 			return "rating/update";
 		}
-		Rating updatedRating = modelMapper.map(ratingDto, Rating.class);
+		Rating updatedRating = ratingService.convertDtoToEntity(ratingDto);
 		ratingService.updateRating(id, updatedRating);
 		model.addAttribute("ratings", ratingService.findAllRatings());
 		return "redirect:/rating/list";
