@@ -119,4 +119,9 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- TODO : Ajouter 2 utilisateurs
+-- Inserting two users
+-- Password is the same for both account : Passw0rd-
+
+INSERT users (username, password, fullname, role) VALUES
+	 ('admin','$2a$10$ChL6CBbIlAIxCnSGmFOwWe1GdZgZpg.eGVOj7Wi23eJb.LOQFiN8C','Elizabeth Mary','ADMIN'),
+	 ('user','$2a$10$d2xA9mXir5IfOAY7i3XbOeHxw1vPmn1WVxF7Tnd.aO2JXsLG89onC','Charles George','USER');
