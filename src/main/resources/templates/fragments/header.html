@@ -7,17 +7,22 @@
 </head>
 
 <body>
-	<div th:fragment="header" class="row">
-		<div class="col-6">
-			<a href="/bidList/list">Bid List</a>&nbsp;|&nbsp;
-			<a href="/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
-			<a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
-			<a href="/trade/list">Trade</a>&nbsp;|&nbsp;
-			<a href="/ruleName/list">Rule</a>
-		</div>
-		<div class="col-6 text-right">
-			Welcome, <b th:inline="text" class="user"> [[${#httpServletRequest.remoteUser}]] </b>
-			<br><span th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a href="/user/list">Manage Users</a> |</span> <a href="/app-logout">Logout</a>
+	<div th:fragment="header">
+		
+		<div class="row">
+			<div class="col-6">
+				<span class="h3">Poseidon</span><br>
+				<a href="/bidList/list">Bid List</a>&nbsp;|&nbsp;
+				<a href="/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
+				<a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
+				<a href="/trade/list">Trade</a>&nbsp;|&nbsp;
+				<a href="/ruleName/list">Rule</a>
+			</div>
+			
+			<div class="col-6 text-right">
+				Welcome, <span th:inline="text" class="user font-weight-bold">[[${#httpServletRequest.remoteUser}]] </span>
+				<br><span th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a href="/user/list">Manage Users</a> |</span> <a href="/app-logout">Logout</a>
+			</div>
 		</div>
 	</div>
 </body>

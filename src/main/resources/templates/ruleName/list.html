@@ -11,38 +11,41 @@
 	
 	<div th:insert="fragments/header :: header"></div>
 	
-	<div class="row"><h2>Rule List</h2></div>
-	<div class="row">
-		<a href="/ruleName/add" class="btn btn-primary btn-sm">Add New</a>
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Name</th>
-					<th>Description</th>
-					<th>json</th>
-					<th>template</th>
-					<th>sqlStr</th>
-					<th>sqlPart</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-			<tr th:each="rule: ${rules}">
-					<td th:text="${rule.id}"></td>
-					<td th:text="${rule.name}"></td>
-					<td th:text="${rule.description}"></td>
-					<td th:text="${rule.json}"></td>
-					<td th:text="${rule.template}"></td>
-					<td th:text="${rule.sqlStr}"></td>
-					<td th:text="${rule.sqlPart}"></td>
-					<td style="width: 15%" class="text-center">
-						<a th:href="@{/ruleName/update/{id}(id=${rule.id})}">Edit</a>&nbsp;|&nbsp;
-						<a th:href="@{/ruleName/delete/{id}(id=${rule.id})}">Delete</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="col-12">
+		<br>
+		<div class="row h5">Rule List</div>
+		<div class="row">
+			<a href="/ruleName/add" class="btn btn-primary btn-sm">Add New</a>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Description</th>
+						<th>json</th>
+						<th>template</th>
+						<th>sqlStr</th>
+						<th>sqlPart</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+				<tr th:each="rule: ${rules}">
+						<td th:text="${rule.id}"></td>
+						<td th:text="${rule.name}"></td>
+						<td th:text="${rule.description}"></td>
+						<td th:text="${rule.json}"></td>
+						<td th:text="${rule.template}"></td>
+						<td th:text="${rule.sqlStr}"></td>
+						<td th:text="${rule.sqlPart}"></td>
+						<td style="width: 15%" class="text-center">
+							<a th:href="@{/ruleName/update/{id}(id=${rule.id})}">Edit</a>&nbsp;|&nbsp;
+							<a th:href="@{/ruleName/delete/{id}(id=${rule.id})}">Delete</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 </body>
