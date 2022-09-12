@@ -11,32 +11,35 @@
 	
 	<div th:insert="fragments/header :: header"></div>
 	
-	<div class="row"><h2>Bid List</h2></div>
-	<div class="row">
-		<a href="/bidList/add" class="btn btn-primary btn-sm">Add New</a>
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Account</th>
-					<th>Type</th>
-					<th>Bid Quantity</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="bid : ${bids}">
-					<td th:text="${bid.id}"></td>
-					<td th:text="${bid.account}"></td>
-					<td th:text="${bid.type}"></td>
-					<td th:text="${bid.bidQuantity}"></td>
-					<td style="width: 15%" class="text-center">
-						<a th:href="@{/bidList/update/{id}(id=${bid.id})}">Edit</a>&nbsp;|&nbsp;
-						<a th:href="@{/bidList/delete/{id}(id=${bid.id})}">Delete</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="col-12">
+		<br>
+		<div class="row h5">Bid List</div>
+		<div class="row">
+			<a href="/bidList/add" class="btn btn-primary btn-sm">Add New</a>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Account</th>
+						<th>Type</th>
+						<th>Bid Quantity</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="bid : ${bids}">
+						<td th:text="${bid.id}"></td>
+						<td th:text="${bid.account}"></td>
+						<td th:text="${bid.type}"></td>
+						<td th:text="${bid.bidQuantity}"></td>
+						<td style="width: 15%" class="text-center">
+							<a th:href="@{/bidList/update/{id}(id=${bid.id})}">Edit</a>&nbsp;|&nbsp;
+							<a th:href="@{/bidList/delete/{id}(id=${bid.id})}">Delete</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 </body>

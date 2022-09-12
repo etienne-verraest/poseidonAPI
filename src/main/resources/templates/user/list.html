@@ -17,39 +17,36 @@
 			<br><a href="/">Home</a>&nbsp;|&nbsp;<a href="/app-logout">Logout</a>
 		</div>
 	</div>
-	<div class="row"><h2>User List</h2></div>
 	
-	<div class="row" th:if="${param.update_error}">
-		<div class="alert alert-warning" role="alert">
-  			There was an error while trying to update the user
+	<div class="col-12">
+		<br>
+		<div class="row h5">User List</div>
+		<div class="row">
+			<a href="/user/add" class="btn btn-primary btn-sm">Add New</a>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Full Name</th>
+						<th>User Name</th>
+						<th>Role</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user : ${users}">
+						<td style="width: 10%" th:text="${user.id}"></td>
+						<td th:text="${user.fullname}"></td>
+						<td th:text="${user.username}"></td>
+						<td style="width: 25%" th:text="${user.role}"></td>
+						<td style="width: 15%" class="text-center">
+							<a th:href="@{/user/update/{id}(id=${user.id})}">Edit</a>&nbsp;|&nbsp;
+							<a th:href="@{/user/delete/{id}(id=${user.id})}">Delete</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-	</div>
-	
-	<div class="row">
-		<a href="/user/add" class="btn btn-primary btn-sm">Add New</a>
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Full Name</th>
-					<th>User Name</th>
-					<th>Role</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="user : ${users}">
-					<td style="width: 10%" th:text="${user.id}"></td>
-					<td th:text="${user.fullname}"></td>
-					<td th:text="${user.username}"></td>
-					<td style="width: 25%" th:text="${user.role}"></td>
-					<td style="width: 15%" class="text-center">
-						<a th:href="@{/user/update/{id}(id=${user.id})}">Edit</a>&nbsp;|&nbsp;
-						<a th:href="@{/user/delete/{id}(id=${user.id})}">Delete</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
 	</div>
 </div>
 </body>
