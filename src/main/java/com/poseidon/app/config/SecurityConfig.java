@@ -33,15 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests() //
 				.antMatchers("/css/**").permitAll() // Allow CSS to be loaded by everyone
 				.antMatchers("/login").anonymous() // Permit anonymous users to access these pages
+				.antMatchers("/user/**").hasAuthority("ADMIN") // Only allow user modification for admins
 				.anyRequest().authenticated() // Every others pages must be accessed with valid credentials
 				.and() //
-				.formLogin().defaultSuccessUrl("/", true) // Login parameters
-				.and() // Remember me parameters
-				.rememberMe().userDetailsService(userService).tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days token
-				.rememberMeCookieName("REMEMBERSESSION") // Set a cookie name
+				.formLogin().defaultSuccessUrl("/bidList/list", true) // Default homepage on the bid page
 				.and() //
 				.logout().logoutUrl("/app-logout").invalidateHttpSession(true) // Logout parameters
-				.deleteCookies("JSESSIONID", "REMEMBERSESSION") // Delete cookies on logout
+				.deleteCookies("JSESSIONID") // Delete cookies on logout
 				.and().csrf().disable(); // Disabling CSRF Tokens
 	}
 
