@@ -3,10 +3,12 @@ package com.poseidon.app.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poseidon.app.domain.CurvePoint;
+import com.poseidon.app.domain.dto.CurvePointDto;
 import com.poseidon.app.exceptions.CurvePointServiceException;
 import com.poseidon.app.repositories.CurvePointRepository;
 
@@ -18,6 +20,9 @@ public class CurvePointService {
 
 	@Autowired
 	CurvePointRepository curvePointRepository;
+
+	@Autowired
+	ModelMapper modelMapper;
 
 	/**
 	 * Get a list of every CurvePoint
@@ -99,5 +104,13 @@ public class CurvePointService {
 		}
 
 		throw new CurvePointServiceException("Could not find bid list with id : " + id);
+	}
+
+	public CurvePoint convertDtoToEntity(CurvePointDto curvePointDto) {
+		return modelMapper.map(curvePointDto, CurvePoint.class);
+	}
+
+	public CurvePointDto convertEntityToDto(CurvePoint curvePointEntity) {
+		return modelMapper.map(curvePointEntity, CurvePointDto.class);
 	}
 }

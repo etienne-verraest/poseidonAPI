@@ -2,7 +2,6 @@ package com.poseidon.app.controllers;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +21,6 @@ public class RuleController {
 
 	@Autowired
 	RuleService ruleService;
-
-	@Autowired
-	ModelMapper modelMapper;
 
 	/**
 	 * Show the rules page
@@ -57,7 +53,7 @@ public class RuleController {
 	@PostMapping("/ruleName/validate")
 	public String validate(@Valid RuleDto ruleDto, BindingResult result, Model model) throws RuleServiceException {
 		if (!result.hasErrors()) {
-			Rule newRuleName = modelMapper.map(ruleDto, Rule.class);
+			Rule newRuleName = ruleService.convertDtoToEntity(ruleDto);
 			ruleService.createRule(newRuleName);
 			model.addAttribute("rules", ruleService.findAllRules());
 			return "redirect:/ruleName/list";
@@ -77,7 +73,7 @@ public class RuleController {
 
 		try {
 			Rule ruleNameToUpdate = ruleService.findRuleById(id);
-			RuleDto ruleDto = modelMapper.map(ruleNameToUpdate, RuleDto.class);
+			RuleDto ruleDto = ruleService.convertEntityToDto(ruleNameToUpdate);
 			ruleDto.setId(id);
 			model.addAttribute("ruleDto", ruleDto);
 		} catch (RuleServiceException error) {
@@ -102,7 +98,7 @@ public class RuleController {
 			return "ruleName/update";
 		}
 
-		Rule updatedRuleName = modelMapper.map(ruleDto, Rule.class);
+		Rule updatedRuleName = ruleService.convertDtoToEntity(ruleDto);
 		ruleService.updateRule(id, updatedRuleName);
 		model.addAttribute("rules", ruleService.findAllRules());
 		return "redirect:/ruleName/list";

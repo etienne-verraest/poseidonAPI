@@ -3,10 +3,12 @@ package com.poseidon.app.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poseidon.app.domain.Trade;
+import com.poseidon.app.domain.dto.TradeDto;
 import com.poseidon.app.exceptions.TradeServiceException;
 import com.poseidon.app.repositories.TradeRepository;
 
@@ -18,6 +20,9 @@ public class TradeService {
 
 	@Autowired
 	TradeRepository tradeRepository;
+
+	@Autowired
+	ModelMapper modelMapper;
 
 	/**
 	 * Get a list of every trades
@@ -94,4 +99,13 @@ public class TradeService {
 		}
 		throw new TradeServiceException("Could not find Trade with id : " + id);
 	}
+
+	public Trade convertDtoToEntity(TradeDto tradeDto) {
+		return modelMapper.map(tradeDto, Trade.class);
+	}
+
+	public TradeDto convertEntityToDto(Trade tradeEntity) {
+		return modelMapper.map(tradeEntity, TradeDto.class);
+	}
+
 }

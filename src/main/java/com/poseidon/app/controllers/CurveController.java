@@ -2,7 +2,6 @@ package com.poseidon.app.controllers;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +21,6 @@ public class CurveController {
 
 	@Autowired
 	CurvePointService curvePointService;
-
-	@Autowired
-	ModelMapper modelMapper;
 
 	/**
 	 * Show the Curve Points page
@@ -58,7 +54,7 @@ public class CurveController {
 	public String validate(@Valid CurvePointDto curvePointDto, BindingResult result, Model model)
 			throws CurvePointServiceException {
 		if (!result.hasErrors()) {
-			CurvePoint newCurvePoint = modelMapper.map(curvePointDto, CurvePoint.class);
+			CurvePoint newCurvePoint = curvePointService.convertDtoToEntity(curvePointDto);
 			curvePointService.createCurvePoint(newCurvePoint);
 			model.addAttribute("curvePoints", curvePointService.findAllCurvePoint());
 			return "redirect:/curvePoint/list";
@@ -77,7 +73,7 @@ public class CurveController {
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) throws CurvePointServiceException {
 		try {
 			CurvePoint curvePointToUpdate = curvePointService.findCurvePointById(id);
-			CurvePointDto curvePointDto = modelMapper.map(curvePointToUpdate, CurvePointDto.class);
+			CurvePointDto curvePointDto = curvePointService.convertEntityToDto(curvePointToUpdate);
 			curvePointDto.setId(id);
 			model.addAttribute("curvePointDto", curvePointDto);
 		} catch (CurvePointServiceException error) {
@@ -101,7 +97,7 @@ public class CurveController {
 		if (result.hasErrors()) {
 			return "curvePoint/update";
 		}
-		CurvePoint updatedCurvePoint = modelMapper.map(curvePointDto, CurvePoint.class);
+		CurvePoint updatedCurvePoint = curvePointService.convertDtoToEntity(curvePointDto);
 		curvePointService.updateCurvePoint(id, updatedCurvePoint);
 		model.addAttribute("curvePoints", curvePointService.findAllCurvePoint());
 		return "redirect:/curvePoint/list";
@@ -115,7 +111,7 @@ public class CurveController {
 	 * @throws CurvePointServiceException		Thrown if there was an error while deleting the curve point
 	 */
 	@GetMapping("/curvePoint/delete/{id}")
-	public String deleteBid(@PathVariable("id") Integer id, Model model) throws CurvePointServiceException {
+	public String deleteCurvePoint(@PathVariable("id") Integer id, Model model) throws CurvePointServiceException {
 		try {
 			curvePointService.deleteCurvePoint(id);
 		} catch (CurvePointServiceException error) {

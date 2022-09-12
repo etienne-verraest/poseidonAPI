@@ -3,10 +3,12 @@ package com.poseidon.app.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poseidon.app.domain.Rating;
+import com.poseidon.app.domain.dto.RatingDto;
 import com.poseidon.app.exceptions.RatingServiceException;
 import com.poseidon.app.repositories.RatingRepository;
 
@@ -18,6 +20,9 @@ public class RatingService {
 
 	@Autowired
 	RatingRepository ratingRepository;
+
+	@Autowired
+	ModelMapper modelMapper;
 
 	/**
 	 * Get a list of every ratings
@@ -97,6 +102,14 @@ public class RatingService {
 			return true;
 		}
 		throw new RatingServiceException("Could not find rating with id : " + id);
+	}
+
+	public Rating convertDtoToEntity(RatingDto ratingDto) {
+		return modelMapper.map(ratingDto, Rating.class);
+	}
+
+	public RatingDto convertEntityToDto(Rating ratingEntity) {
+		return modelMapper.map(ratingEntity, RatingDto.class);
 	}
 
 }
