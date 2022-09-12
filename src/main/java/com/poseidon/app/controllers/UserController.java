@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.poseidon.app.config.BootstrapAlerts;
 import com.poseidon.app.domain.User;
 import com.poseidon.app.domain.dto.UserDto;
 import com.poseidon.app.exceptions.UserServiceException;
@@ -34,7 +36,9 @@ public class UserController {
 	 */
 	@RequestMapping("/user/list")
 	public String home(Model model) {
+
 		model.addAttribute("users", userService.findAllUsers());
+
 		return "user/list";
 	}
 
@@ -46,7 +50,9 @@ public class UserController {
 	 */
 	@GetMapping("/user/add")
 	public String addUser(UserDto userDto) {
+
 		return "user/add";
+
 	}
 
 	/**
@@ -58,14 +64,22 @@ public class UserController {
 	 * @throws UserServiceException				Thrown if there is an error while creating the user
 	 */
 	@PostMapping("/user/validate")
-	public String validate(@Valid UserDto userDto, BindingResult result, Model model) throws UserServiceException {
+	public String validate(@Valid UserDto userDto, BindingResult result, Model model,
+			RedirectAttributes redirectAttributes) throws UserServiceException {
 
 		if (!result.hasErrors()) {
-			User newUser = modelMapper.map(userDto, User.class);
+			User newUser = userService.convertDtoToEntity(userDto);
 			userService.createUser(newUser);
+
+			redirectAttributes.addFlashAttribute("message",
+					String.format("User with id '%d' was successfully deleted", newUser.getId()));
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
+
 			model.addAttribute("users", userService.findAllUsers());
+
 			return "redirect:/user/list";
 		}
+
 		return "user/add";
 	}
 
@@ -77,15 +91,20 @@ public class UserController {
 	 * @throws UserServiceException				Thrown if the given user ID was not found in database
 	 */
 	@GetMapping("/user/update/{id}")
-	public String showUpdateForm(@PathVariable("id") Integer id, Model model) throws UserServiceException {
+	public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes)
+			throws UserServiceException {
+
 		try {
 			User userToUpdate = userService.findUserById(id);
-			UserDto user = modelMapper.map(userToUpdate, UserDto.class);
+			UserDto user = userService.convertEntityToDto(userToUpdate);
 			user.setPassword("");
 			model.addAttribute("userDto", user);
 		} catch (UserServiceException error) {
-			return "redirect:/user/list?update_error";
+			redirectAttributes.addFlashAttribute("message", error.getMessage());
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.WARNING);
+			return "redirect:/user/list";
 		}
+
 		return "user/update";
 	}
 
@@ -98,15 +117,22 @@ public class UserController {
 	 * @throws UserServiceException				Thrown if there is an error while updating the user
 	 */
 	@PostMapping("/user/update/{id}")
-	public String updateUser(@PathVariable("id") Integer id, @Valid UserDto userDto, BindingResult result, Model model)
-			throws UserServiceException {
+	public String updateUser(@PathVariable("id") Integer id, @Valid UserDto userDto, BindingResult result, Model model,
+			RedirectAttributes redirectAttributes) throws UserServiceException {
 
 		if (result.hasErrors()) {
 			return "user/update";
 		}
-		User newUser = modelMapper.map(userDto, User.class);
+
+		User newUser = userService.convertDtoToEntity(userDto);
 		userService.updateUser(id, newUser);
+
+		redirectAttributes.addFlashAttribute("message",
+				String.format("User with id '%d' was successfully updated", id));
+		redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
+
 		model.addAttribute("users", userService.findAllUsers());
+
 		return "redirect:/user/list";
 	}
 
@@ -118,15 +144,23 @@ public class UserController {
 	 * @throws UserServiceException				Thrown if there was an error while deleting the users
 	 */
 	@GetMapping("/user/delete/{id}")
-	public String deleteUser(@PathVariable("id") Integer id, Model model) throws UserServiceException {
+	public String deleteUser(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes)
+			throws UserServiceException {
 
 		try {
 			userService.deleteUser(id);
 		} catch (UserServiceException error) {
-			log.error("[User Service] {}", error.getMessage());
+			redirectAttributes.addFlashAttribute("message", error.getMessage());
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.WARNING);
 			return "redirect:/user/list";
 		}
+
+		redirectAttributes.addFlashAttribute("message",
+				String.format("User with id '%d' was successfully deleted", id));
+		redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
+
 		model.addAttribute("users", userService.findAllUsers());
+
 		return "redirect:/user/list";
 	}
 }

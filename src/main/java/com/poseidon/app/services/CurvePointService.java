@@ -44,7 +44,7 @@ public class CurvePointService {
 		if (id != null && curvePoint.isPresent()) {
 			return curvePoint.get();
 		}
-		throw new CurvePointServiceException("CurvePoint was not found with given ID");
+		throw new CurvePointServiceException("Could not find Curve Point with id : " + id);
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class CurvePointService {
 			return true;
 		}
 
-		throw new CurvePointServiceException("Could not find bid list with id : " + id);
+		throw new CurvePointServiceException("Could not find Curve Point with id : " + id);
 	}
 
 	public CurvePoint convertDtoToEntity(CurvePointDto curvePointDto) {

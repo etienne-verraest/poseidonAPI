@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="alert" class="row">
+		<div th:if="${message}" th:text="${message}" th:class="'col-12 alert ' + ${message_type}" role="alert">
+			 Message information
+		</div>
+	</div>
+</body>
+
+</html>

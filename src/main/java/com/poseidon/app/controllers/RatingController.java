@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.poseidon.app.config.BootstrapAlerts;
 import com.poseidon.app.domain.Rating;
 import com.poseidon.app.domain.dto.RatingDto;
 import com.poseidon.app.exceptions.RatingServiceException;
@@ -51,12 +53,18 @@ public class RatingController {
 	 * @throws RatingServiceException		Thrown if there is an error while creating the rating
 	 */
 	@PostMapping("/rating/validate")
-	public String validate(@Valid RatingDto ratingDto, BindingResult result, Model model)
-			throws RatingServiceException {
+	public String validate(@Valid RatingDto ratingDto, BindingResult result, Model model,
+			RedirectAttributes redirectAttributes) throws RatingServiceException {
 		if (!result.hasErrors()) {
 			Rating newRating = ratingService.convertDtoToEntity(ratingDto);
 			ratingService.createRating(newRating);
+
+			redirectAttributes.addFlashAttribute("message",
+					String.format("Rating with id '%d' was successfully created", newRating.getId()));
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
+
 			model.addAttribute("ratings", ratingService.findAllRatings());
+
 			return "redirect:/rating/list";
 		}
 		return "rating/add";
@@ -70,13 +78,16 @@ public class RatingController {
 	 * @throws RatingServiceException			Thrown if the given ID was not found in database
 	 */
 	@GetMapping("/rating/update/{id}")
-	public String showUpdateForm(@PathVariable("id") Integer id, Model model) throws RatingServiceException {
+	public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes)
+			throws RatingServiceException {
 		try {
 			Rating ratingToUpdate = ratingService.findRatingById(id);
 			RatingDto ratingDto = ratingService.convertEntityToDto(ratingToUpdate);
 			ratingDto.setId(id);
 			model.addAttribute("ratingDto", ratingDto);
 		} catch (RatingServiceException error) {
+			redirectAttributes.addFlashAttribute("message", error.getMessage());
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.WARNING);
 			return "redirect:/rating/list";
 		}
 		return "rating/update";
@@ -92,14 +103,20 @@ public class RatingController {
 	 */
 	@PostMapping("/rating/update/{id}")
 	public String updateRating(@PathVariable("id") Integer id, @Valid RatingDto ratingDto, BindingResult result,
-			Model model) throws RatingServiceException {
+			Model model, RedirectAttributes redirectAttributes) throws RatingServiceException {
 
 		if (result.hasErrors()) {
 			return "rating/update";
 		}
 		Rating updatedRating = ratingService.convertDtoToEntity(ratingDto);
 		ratingService.updateRating(id, updatedRating);
+
+		redirectAttributes.addFlashAttribute("message",
+				String.format("Rating with id '%d' was successfully updated", id));
+		redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
+
 		model.addAttribute("ratings", ratingService.findAllRatings());
+
 		return "redirect:/rating/list";
 	}
 
@@ -111,12 +128,20 @@ public class RatingController {
 	 * @throws RatingServiceException			Thrown if there was an error while deleting the rating
 	 */
 	@GetMapping("/rating/delete/{id}")
-	public String deleteRating(@PathVariable("id") Integer id, Model model) throws RatingServiceException {
+	public String deleteRating(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes)
+			throws RatingServiceException {
 		try {
 			ratingService.deleteRating(id);
 		} catch (RatingServiceException error) {
+			redirectAttributes.addFlashAttribute("message", error.getMessage());
+			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.WARNING);
 			return "redirect:/rating/list";
 		}
+
+		redirectAttributes.addFlashAttribute("message",
+				String.format("Rating with id '%d' was successfully deleted", id));
+		redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
+
 		model.addAttribute("ratings", ratingService.findAllRatings());
 		return "redirect:/rating/list";
 	}

@@ -37,14 +37,14 @@ public class RuleService {
 	 *
 	 * @param id								The Rule ID to find
 	 * @return									Rule if it exists, otherwise an error is thrown
-	 * @throws RuleServiceException	 		Thrown if the Rule was not found
+	 * @throws RuleServiceException	 			Thrown if the Rule was not found
 	 */
 	public Rule findRuleById(Integer id) throws RuleServiceException {
 		Optional<Rule> ruleName = ruleNameRepository.findRuleById(id);
 		if (id != null && ruleName.isPresent()) {
 			return ruleName.get();
 		}
-		throw new RuleServiceException("Rule was not found with given ID");
+		throw new RuleServiceException("Could not find rule with id : " + id);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class RuleService {
 					ruleEntity.getName());
 			return true;
 		}
-		throw new RuleServiceException("There was an error while creating the Rule");
+		throw new RuleServiceException("There was an error while creating the rule");
 	}
 
 	/**

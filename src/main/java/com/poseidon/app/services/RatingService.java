@@ -44,7 +44,7 @@ public class RatingService {
 		if (id != null && rating.isPresent()) {
 			return rating.get();
 		}
-		throw new RatingServiceException("Rating was not found with given ID");
+		throw new RatingServiceException("Could not find rating with id : " + id);
 	}
 
 	/**
