@@ -36,8 +36,8 @@ public class TradeServiceTests {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		tradeListMock = new ArrayList<>();
-		mockFirstTrade = new Trade("First Account", "First Type");
-		mockSecondTrade = new Trade("Second Account", "Second Type");
+		mockFirstTrade = new Trade("First Account", "First Type", 10d);
+		mockSecondTrade = new Trade("Second Account", "Second Type", 20d);
 		tradeListMock.add(mockFirstTrade);
 		tradeListMock.add(mockSecondTrade);
 	}
