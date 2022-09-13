@@ -40,7 +40,7 @@ public class BidController {
 	 * @return									Add a bid view
 	 */
 	@GetMapping("/bidList/add")
-	public String addBidForm(BidDto bidListDto) {
+	public String addBidForm(BidDto bidDto) {
 		return "bidList/add";
 	}
 
