@@ -70,7 +70,7 @@ public class TradeControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_Trades_Successful() throws Exception {
 
 		// ARRANGE
@@ -83,7 +83,7 @@ public class TradeControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_CreateTrade_Successful() throws Exception {
 
 		// ACT AND ASSERT
@@ -94,7 +94,7 @@ public class TradeControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void post_CreateTrade_Successful() throws Exception {
 
 		// ARRANGE
@@ -115,7 +115,7 @@ public class TradeControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void post_UpdateTrade_Successful() throws Exception {
 
 		// ARRANGE
@@ -135,7 +135,7 @@ public class TradeControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_UpdateTrade_Successful() throws Exception {
 
 		// ARRANGE
@@ -156,7 +156,7 @@ public class TradeControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_UpdateTrade_Error() throws Exception {
 
 		// ARRANGE
@@ -170,7 +170,7 @@ public class TradeControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_DeleteTrade_Successful() throws Exception {
 
 		// ARRANGE
@@ -185,7 +185,7 @@ public class TradeControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_DeleteTrade_Fail() throws Exception {
 
 		// ARRANGE
