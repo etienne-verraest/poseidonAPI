@@ -42,8 +42,7 @@ public class TradeController {
 	 * @return									Add a Trade view
 	 */
 	@GetMapping("/trade/add")
-	public String addUser(TradeDto tradeDto) {
-
+	public String addTrade(TradeDto tradeDto) {
 		return "trade/add";
 	}
 
