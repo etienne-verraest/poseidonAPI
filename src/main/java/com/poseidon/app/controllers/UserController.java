@@ -69,10 +69,19 @@ public class UserController {
 
 		if (!result.hasErrors()) {
 			User newUser = userService.convertDtoToEntity(userDto);
-			userService.createUser(newUser);
+
+			try {
+				userService.createUser(newUser);
+			} catch (UserServiceException error) {
+				// The only error that can be thrown on creation is if username is already taken
+				// If it's taken, we reject the form
+				result.rejectValue("username", "", "Username is already taken");
+				return "user/add";
+			}
 
 			redirectAttributes.addFlashAttribute("message",
-					String.format("User with id '%d' was successfully deleted", newUser.getId()));
+					String.format("User with username '%s' and role '%s' was successfully created",
+							newUser.getUsername(), newUser.getRole()));
 			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
 
 			model.addAttribute("users", userService.findAllUsers());
@@ -128,7 +137,7 @@ public class UserController {
 		userService.updateUser(id, newUser);
 
 		redirectAttributes.addFlashAttribute("message",
-				String.format("User with id '%d' was successfully updated", id));
+				String.format("User '%s' was successfully updated", newUser.getUsername()));
 		redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
 
 		model.addAttribute("users", userService.findAllUsers());
@@ -147,7 +156,10 @@ public class UserController {
 	public String deleteUser(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes)
 			throws UserServiceException {
 
+		String username = "";
 		try {
+			// Getting username of the user before deleting it
+			username = userService.findUserById(id).getUsername();
 			userService.deleteUser(id);
 		} catch (UserServiceException error) {
 			redirectAttributes.addFlashAttribute("message", error.getMessage());
@@ -155,8 +167,7 @@ public class UserController {
 			return "redirect:/user/list";
 		}
 
-		redirectAttributes.addFlashAttribute("message",
-				String.format("User with id '%d' was successfully deleted", id));
+		redirectAttributes.addFlashAttribute("message", String.format("User '%s' was successfully deleted", username));
 		redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
 
 		model.addAttribute("users", userService.findAllUsers());
