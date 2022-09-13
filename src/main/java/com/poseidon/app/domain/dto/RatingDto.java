@@ -21,5 +21,5 @@ public class RatingDto {
 	private String fitchRating;
 
 	@IsInteger
-	private Integer orderNumber;
+	private String orderNumber;
 }
