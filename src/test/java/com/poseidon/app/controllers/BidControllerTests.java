@@ -68,7 +68,7 @@ public class BidControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_Bids_Successful() throws Exception {
 
 		// ARRANGE
@@ -81,7 +81,7 @@ public class BidControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_CreateBid_Successful() throws Exception {
 
 		// ACT AND ASSERT
@@ -92,7 +92,7 @@ public class BidControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void post_CreateBid_Successful() throws Exception {
 
 		// ARRANGE
@@ -112,7 +112,7 @@ public class BidControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void post_UpdateBid_Successful() throws Exception {
 
 		// ARRANGE
@@ -132,7 +132,7 @@ public class BidControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_UpdateBid_Successful() throws Exception {
 
 		// ARRANGE
@@ -153,7 +153,7 @@ public class BidControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_UpdateBid_Error() throws Exception {
 
 		// ARRANGE
@@ -167,7 +167,7 @@ public class BidControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_DeleteBid_Successful() throws Exception {
 
 		// ARRANGE
@@ -182,7 +182,7 @@ public class BidControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_DeleteBid_Error() throws Exception {
 
 		// ARRANGE

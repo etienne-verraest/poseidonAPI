@@ -70,7 +70,7 @@ public class CurvePointControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_CurvePoints_Successful() throws Exception {
 
 		// ARRANGE
@@ -83,7 +83,7 @@ public class CurvePointControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_CreateCurvePoint_Successful() throws Exception {
 
 		// ACT AND ASSERT
@@ -94,7 +94,7 @@ public class CurvePointControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void post_CreateCurvePoint_Successful() throws Exception {
 
 		// ARRANGE
@@ -114,7 +114,7 @@ public class CurvePointControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void post_UpdateCurvePoint_Successful() throws Exception {
 
 		// ARRANGE
@@ -134,7 +134,7 @@ public class CurvePointControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_UpdateCurvePoint_Successful() throws Exception {
 
 		// ARRANGE
@@ -155,7 +155,7 @@ public class CurvePointControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_UpdateCurvePoint_Error() throws Exception {
 
 		// ARRANGE
@@ -169,7 +169,7 @@ public class CurvePointControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_DeleteCurvePoint_Successful() throws Exception {
 
 		// ARRANGE
@@ -184,7 +184,7 @@ public class CurvePointControllerTests {
 	}
 
 	@Test
-	@WithMockUser(username = "admin", roles = "ADMIN")
+	@WithMockUser(username = "user", roles = "USER")
 	public void get_DeleteCurvePoint_Error() throws Exception {
 
 		// ARRANGE
