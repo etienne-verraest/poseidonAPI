@@ -61,7 +61,7 @@ public class RuleController {
 			ruleService.createRule(newRule);
 
 			redirectAttributes.addFlashAttribute("message",
-					String.format("Rule with id '%d' was successfully deleted", newRule.getId()));
+					String.format("Rule with id '%d' was successfully created", newRule.getId()));
 			redirectAttributes.addFlashAttribute("message_type", BootstrapAlerts.PRIMARY);
 
 			model.addAttribute("rules", ruleService.findAllRules());
@@ -101,7 +101,7 @@ public class RuleController {
 	 * @param id								The ID that is going to be updated
 	 * @param ruleNameDto						The new fields that will be mapped to the existing rule
 	 * @return									Returns the list of rules if the form is valid, otherwise show errors
-	 * @throws RuleServiceException			Thrown if there is an error while updating the rule
+	 * @throws RuleServiceException				Thrown if there is an error while updating the rule
 	 */
 	@PostMapping("/ruleName/update/{id}")
 	public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleDto ruleDto, BindingResult result,
@@ -128,7 +128,7 @@ public class RuleController {
 	 *
 	 * @param id								The ID that is going to be deleted
 	 * @return									The rules list if the deletion was successful
-	 * @throws RuleServiceException			Thrown if there was an error while deleting the given rule
+	 * @throws RuleServiceException				Thrown if there was an error while deleting the given rule
 	 */
 	@GetMapping("/ruleName/delete/{id}")
 	public String deleteRuleName(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes)
