@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>  
+	<title>Unexpected error</title>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="../../css/bootstrap.min.css" >
+</head>
+<body class="vh-100" style="background-color:#f2f2f2;"> 
+	   
+	   <div class="h-100 d-flex justify-content-center align-items-center">
+		   <div class="text-center">
+			   <span class="error h1" th:text="${errorMsg}">Error</span>
+			   <br><a class="h3" href="/">Bring me back to home</a>
+		   </div>
+	   </div>
+
+</body>
+</html>   
