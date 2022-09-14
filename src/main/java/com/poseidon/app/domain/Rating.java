@@ -11,9 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @Table(name = "rating")
 @NoArgsConstructor
+@Data
 public class Rating {
 
 	public Rating(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {

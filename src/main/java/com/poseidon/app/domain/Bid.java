@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "bid")
-@Data
 @NoArgsConstructor
+@Data
 public class Bid {
 
 	public Bid(String account, String type, Double bidQuantity) {

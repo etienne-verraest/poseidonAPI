@@ -13,9 +13,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @Table(name = "curvepoint")
 @NoArgsConstructor
+@Data
 public class CurvePoint {
 
 	public CurvePoint(Integer curveId, Double term, Double value) {
