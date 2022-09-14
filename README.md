@@ -1,31 +1,37 @@
-# spring-boot
-## Technical:
 
-1. Framework: Spring Boot v2.0.4
-2. Java 8
-3. Thymeleaf
-4. Bootstrap v.4.3.1
+<center> 
+
+![Poseidon Logo](./doc/poseidon-logo.png) 
+
+[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)
+</center>
+
+# Poseidon API
+Poseidon is an enterprise software deployed as a web application to generate more transactions on financial markets. The application gathers information from different sources.
 
 
-## Setup with Intellij IDE
-1. Create project from Initializr: File > New > project > Spring Initializr
-2. Add lib repository into pom.xml
-3. Add folders
-    - Source root: src/main/java
-    - View: src/main/resources
-    - Static: src/main/resource/static
-4. Create database with name "demo" as configuration in application.properties
-5. Run sql script to create table doc/data.sql
+## Technical Stack
+- Backend : Java 8 and Spring Boot framework v2.0.4 (+ Spring Security)
+- Frontend : HTML, Thymeleaf and Bootstrap v.4.3.1
+- Database : MySQL
 
-## Implement a Feature
-1. Create mapping domain class and place in package com.nnk.springboot.domain
-2. Create repository class and place in package com.nnk.springboot.repositories
-3. Create controller class and place in package com.nnk.springboot.controllers
-4. Create view files and place in src/main/resource/templates
+## Setting up the application
+In a terminal/command prompt, connect to your MySQL local database system. When connected do the followings : 
+- Create the API Database with : `CREATE DATABASE poseidonapi`
+- Tell MySQL to use the created database with : `USE poseidonapi`
+- In the main/resources folder of the application, load the SQL database creation file with : `source schema.sql`
+- If everything is set up correctly, you can now start the application with : `mvn spring-boot:run`
 
-## Write Unit Test
-1. Create unit test and place in package com.nnk.springboot in folder test > java
+## Testing the application
+If you loaded the database creation file, there should be 2 pre-created users :
+- An admin account : `admin:Passw0rd-`
+- A simple user account : `user:Passw0rd-`
 
-## Security
-1. Create user service to load user from  database and place in package com.nnk.springboot.services
-2. Add configuration class and place in package com.nnk.springboot.config
+## Features
+The application is made of 6 differents endpoints : 
+- Bids
+- Curve Points
+- Ratings
+- Trades
+- Rules
+- Users (for admin only)
