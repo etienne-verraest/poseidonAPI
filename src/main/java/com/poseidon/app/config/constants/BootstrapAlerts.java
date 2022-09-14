@@ -1,4 +1,4 @@
-package com.poseidon.app.config;
+package com.poseidon.app.config.constants;
 
 /**
  * This final class inserts Bootstrap alerts component values as constant
