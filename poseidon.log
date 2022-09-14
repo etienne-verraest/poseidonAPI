@@ -7,3 +7,5 @@
 2022-09-14 10:17:29.869  INFO 9572 --- [restartedMain] com.poseidon.app.Application             : Starting Application on XPS17 with PID 9572 (C:\Users\verra\Desktop\poseidonAPI\target\classes started by verra in C:\Users\verra\Desktop\poseidonAPI)
 2022-09-14 10:17:29.870  INFO 9572 --- [restartedMain] com.poseidon.app.Application             : No active profile set, falling back to default profiles: default
 2022-09-14 10:17:31.066  INFO 9572 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-09-14 10:17:33.047  INFO 9572 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-09-14 10:17:33.049  INFO 9572 --- [restartedMain] com.poseidon.app.Application             : Started Application in 3.383 seconds (JVM running for 3.898)
