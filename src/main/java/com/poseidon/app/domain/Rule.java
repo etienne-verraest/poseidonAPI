@@ -11,9 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @Table(name = "rule")
 @NoArgsConstructor
+@Data
 public class Rule {
 
 	public Rule(String name, String description, String json, String template, String sqlStr, String sqlPart) {
