@@ -1,10 +1,12 @@
-
-<center> 
-
+<p align="center">
+  
 ![Poseidon Logo](./doc/poseidon-logo.png) 
 
-[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)
-</center>
+![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)
+
+</p>
+
+
 
 # Poseidon API
 Poseidon is an enterprise software deployed as a web application to generate more transactions on financial markets. The application gathers information from different sources.
