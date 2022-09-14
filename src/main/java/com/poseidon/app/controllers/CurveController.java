@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.poseidon.app.config.BootstrapAlerts;
+import com.poseidon.app.config.constants.BootstrapAlerts;
 import com.poseidon.app.domain.CurvePoint;
 import com.poseidon.app.domain.dto.CurvePointDto;
 import com.poseidon.app.exceptions.CurvePointServiceException;
