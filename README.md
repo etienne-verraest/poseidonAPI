@@ -17,6 +17,7 @@ In a terminal/command prompt, connect to your MySQL local database system. When 
 If you loaded the database creation file, there should be 2 pre-created users :
 - An admin account : `admin:Passw0rd-`
 - A simple user account : `user:Passw0rd-`
+
 Now head to [http://localhost:8080](http://localhost:8080) to start using the application
 
 ## Features
