@@ -36,9 +36,7 @@ public class UserController {
 	 */
 	@RequestMapping("/user/list")
 	public String home(Model model) {
-
 		model.addAttribute("users", userService.findAllUsers());
-
 		return "user/list";
 	}
 
@@ -50,7 +48,6 @@ public class UserController {
 	 */
 	@GetMapping("/user/add")
 	public String addUser(UserDto userDto) {
-
 		return "user/add";
 
 	}
