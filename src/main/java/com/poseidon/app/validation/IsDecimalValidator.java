@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class NumericValidator implements ConstraintValidator<Numeric, String> {
+public class IsDecimalValidator implements ConstraintValidator<IsDecimal, String> {
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {

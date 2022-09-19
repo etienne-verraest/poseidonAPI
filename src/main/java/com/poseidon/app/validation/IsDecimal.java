@@ -11,8 +11,8 @@ import javax.validation.Payload;
 
 @Retention(RUNTIME)
 @Target(FIELD)
-@Constraint(validatedBy = NumericValidator.class)
-public @interface Numeric {
+@Constraint(validatedBy = IsDecimalValidator.class)
+public @interface IsDecimal {
 
 	String message() default "Please enter a valid number";
 
