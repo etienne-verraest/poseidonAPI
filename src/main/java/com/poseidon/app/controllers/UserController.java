@@ -2,7 +2,6 @@ package com.poseidon.app.controllers;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,17 +18,11 @@ import com.poseidon.app.domain.dto.UserDto;
 import com.poseidon.app.exceptions.UserServiceException;
 import com.poseidon.app.services.UserService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Controller
 public class UserController {
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private ModelMapper modelMapper;
 
 	/**
 	 * Show the users registered on the website
