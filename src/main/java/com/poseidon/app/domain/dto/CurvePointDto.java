@@ -1,6 +1,6 @@
 package com.poseidon.app.domain.dto;
 
-import com.poseidon.app.validation.Numeric;
+import com.poseidon.app.validation.IsDecimal;
 import com.poseidon.app.validation.IsInteger;
 
 import lombok.Data;
@@ -13,9 +13,9 @@ public class CurvePointDto {
 	@IsInteger
 	private String curveId;
 
-	@Numeric
+	@IsDecimal
 	private String term;
 
-	@Numeric
+	@IsDecimal
 	private String value;
 }

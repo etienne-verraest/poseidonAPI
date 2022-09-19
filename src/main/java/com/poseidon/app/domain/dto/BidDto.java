@@ -2,7 +2,7 @@ package com.poseidon.app.domain.dto;
 
 import javax.validation.constraints.NotBlank;
 
-import com.poseidon.app.validation.Numeric;
+import com.poseidon.app.validation.IsDecimal;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +19,6 @@ public class BidDto {
 	@NotBlank(message = "Type is mandatory")
 	private String type;
 
-	@Numeric
+	@IsDecimal
 	private String bidQuantity;
 }
